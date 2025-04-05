@@ -1,0 +1,171 @@
+[gd_scene load_steps=16 format=3 uid="uid://dji48svlyhooo"]
+
+[ext_resource type="Script" uid="uid://1fseycua7h6m" path="res://scripts/wideout.gd" id="1_kxohe"]
+[ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_7jkhm"]
+[ext_resource type="Shader" uid="uid://lq1qi7haqp08" path="res://assets/blur_wr.gdshader" id="2_yoaqb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pnmps"]
+shader = ExtResource("2_yoaqb")
+shader_parameter/blur_strength = 1.0
+shader_parameter/opacity_reduction = 0.0
+shader_parameter/kernel_size = 3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoaqb"]
+atlas = ExtResource("2_7jkhm")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnmps"]
+atlas = ExtResource("2_7jkhm")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shh2q"]
+atlas = ExtResource("2_7jkhm")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxohe"]
+atlas = ExtResource("2_7jkhm")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lynsk"]
+atlas = ExtResource("2_7jkhm")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y6au4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yoaqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnmps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shh2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxohe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lynsk")
+}],
+"loop": true,
+"name": &"dive",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_4eqom"]
+resource_name = "dive"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.349066]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(1.8, 2.2)]
+}
+
+[sub_resource type="Animation" id="Animation_kxohe"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_44o4d"]
+_data = {
+&"RESET": SubResource("Animation_kxohe"),
+&"dive": SubResource("Animation_4eqom")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kxohe"]
+radius = 27.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kxohe"]
+radius = 14.0
+height = 62.0
+
+[node name="Wideout" type="Node2D"]
+script = ExtResource("1_kxohe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_pnmps")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_y6au4")
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_44o4d")
+}
+
+[node name="CatchBox" type="Area2D" parent="."]
+position = Vector2(13, -2)
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CatchBox"]
+shape = SubResource("CircleShape2D_kxohe")
+disabled = true
+
+[node name="OOB" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OOB"]
+shape = SubResource("CapsuleShape2D_kxohe")
+
+[node name="TD" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TD"]
+shape = SubResource("CapsuleShape2D_kxohe")
+
+[node name="ShaderIncrement" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="body_entered" from="CatchBox" to="." method="_on_catch_box_body_entered"]
+[connection signal="area_entered" from="OOB" to="." method="_on_oob_area_entered"]
+[connection signal="timeout" from="ShaderIncrement" to="." method="_on_shader_increment_timeout"]

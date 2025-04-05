@@ -55,6 +55,15 @@ throw={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="world"
+2d_physics/layer_2="ball"
+2d_physics/layer_3="qb"
+2d_physics/layer_4="linebacker"
+2d_physics/layer_5="wideout"
+2d_physics/layer_6="endzone"
+
 [rendering]
 
 renderer/rendering_method="mobile"

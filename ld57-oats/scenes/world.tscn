@@ -1,8 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=15 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
-[ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="3_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://50rj8u3gnxs" path="res://scenes/play.tscn" id="3_4wyf3"]
+[ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/resources/main_theme.tres" id="3_k0juu"]
+[ext_resource type="AudioStream" uid="uid://cxlhkflmpc464" path="res://assets/sounds/catch.wav" id="5_qfnet"]
+[ext_resource type="AudioStream" uid="uid://bm2xg1aghkx83" path="res://assets/sounds/hike.wav" id="6_i7141"]
+[ext_resource type="AudioStream" uid="uid://4cdbjrd1dd33" path="res://assets/sounds/throw.wav" id="8_7r4gi"]
+[ext_resource type="AudioStream" uid="uid://dykcy2kgucd0w" path="res://assets/sounds/miss.wav" id="9_w7kh3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71j4m"]
 atlas = ExtResource("2_k0juu")
@@ -26,66 +31,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4wyf3"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(320, 0, 32, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i7141"]
+size = Vector2(2061.5, 259.75)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k0juu"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(352, 0, 32, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4mrxx"]
+size = Vector2(219.75, 2716.88)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i7141"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(384, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4mrxx"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(416, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7r4gi"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(448, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w7kh3"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(480, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e3hyu"]
-atlas = ExtResource("3_4wyf3")
-region = Rect2(512, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_q5onr"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4wyf3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k0juu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i7141")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4mrxx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7r4gi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w7kh3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e3hyu")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4wyf3"]
-radius = 13.0
-height = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7r4gi"]
+size = Vector2(125, 272.5)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_nnsk1")
@@ -97,24 +50,74 @@ scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_i7141")
 autoplay = "default"
 
-[node name="Sounds" type="Node2D" parent="."]
-
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="UI"]
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 195.0
+offset_bottom = 37.0
+
+[node name="Adjustment" type="Label" parent="UI"]
+offset_left = 211.0
+offset_top = 14.0
+offset_right = 338.0
+offset_bottom = 37.0
+theme = ExtResource("3_k0juu")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "RIGHT:"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 
-[node name="Ball" type="RigidBody2D" parent="."]
-position = Vector2(106, 505)
-freeze = true
-angular_velocity = 0.872665
-angular_damp = 1.0
+[node name="Miss" type="Area2D" parent="."]
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="Ball"]
-texture_filter = 1
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_q5onr")
-autoplay = "default"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Miss"]
+position = Vector2(868.25, 863.125)
+shape = SubResource("RectangleShape2D_i7141")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
-shape = SubResource("CapsuleShape2D_4wyf3")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Miss"]
+position = Vector2(1437, -635)
+shape = SubResource("RectangleShape2D_4mrxx")
+
+[node name="endzone" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="endzone"]
+position = Vector2(1213.5, 584.75)
+shape = SubResource("RectangleShape2D_7r4gi")
+
+[node name="Play" parent="." instance=ExtResource("3_4wyf3")]
+position = Vector2(515, 587)
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Catch" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("5_qfnet")
+volume_db = -15.0
+bus = &"sfx"
+
+[node name="Hike" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("6_i7141")
+volume_db = -10.0
+pitch_scale = 0.8
+bus = &"sfx"
+
+[node name="Throw" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("8_7r4gi")
+volume_db = -12.0
+pitch_scale = 0.81
+bus = &"sfx"
+
+[node name="Miss" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("9_w7kh3")
+volume_db = -0.2
+bus = &"sfx"
+
+[connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
+[connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]
+[connection signal="ball_caught" from="Play" to="." method="_on_play_ball_caught"]
+[connection signal="qb_sacked" from="Play" to="." method="_on_play_qb_sacked"]
+[connection signal="wideout_oob" from="Play" to="." method="_on_play_wideout_oob"]
+[connection signal="wideout_td" from="Play" to="." method="_on_play_wideout_td"]
