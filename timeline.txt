@@ -4,6 +4,8 @@ Friday
 Overview
 2D side-view, football field. Player on left, standing static. Player can hike ball w/ button (can also call hut and blue-42, etc. with other keys) which kicks off receiver sprint. Player sees 2 receivers based on their vision score (reported in UI). Player tries to lead the player and throw a deep ball for a game winning td in increasingly difficult scenarios. Light narrative of a playoff drive maybe? Player will charge a meter to throw the ball to a point in between the 2 and squint, revealing where the player actually is. Player catches. 4 downs, starting from various difficulty spots on the field.
 
+
+
 11PM
 Made a draft 3D qb, wr, and linebacker. Plan is to start w/ static and add animations as time allows. Want to get a solid plan for making it feel fun for a few playoff games.
 
@@ -12,5 +14,9 @@ Got rough launch mechanic working, super simple rigidbody toss. Going to watch T
 7AM
 Woke up, made smoothie w/ new blender, it was good. Decided last night to pivot from 3D -> px to straight SNES px style. Will fit music and sfx better I think...
 
+Narrative (came up w/ in bed): QB gets sacked hard and wakes up with detached retina or similar. Can't see receiver
+
 8AM
 Drafts of qb and linebacker idle animations done
+
+Random thought: Story mode w/ narrative and endless mode: out of scope? Will focus story mode and see if it's quick to add endless.
