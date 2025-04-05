@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=14 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
@@ -36,6 +36,9 @@ size = Vector2(2061.5, 259.75)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4mrxx"]
 size = Vector2(219.75, 2716.88)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7r4gi"]
+size = Vector2(125, 272.5)
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_nnsk1")
 
@@ -56,35 +59,52 @@ offset_top = 10.0
 offset_right = 195.0
 offset_bottom = 37.0
 
+[node name="RightEye" type="Label" parent="UI"]
+offset_left = 211.0
+offset_top = 14.0
+offset_right = 338.0
+offset_bottom = 37.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "RIGHT:"
+
+[node name="LeftEye" type="Label" parent="UI"]
+offset_left = 313.0
+offset_top = 14.0
+offset_right = 440.0
+offset_bottom = 37.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "LEFT:"
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 
 [node name="Ball" parent="." instance=ExtResource("3_i7141")]
-position = Vector2(61, 602)
+position = Vector2(660, 605)
 
 [node name="Linebacker" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(220, 560)
+position = Vector2(819, 563)
 
 [node name="Linebacker2" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(220, 613)
+position = Vector2(819, 616)
 
 [node name="Linebacker3" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(220, 667)
+position = Vector2(819, 670)
 
 [node name="LinebackerEnemy" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(286, 552)
+position = Vector2(885, 555)
 
 [node name="LinebackerEnemy2" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(286, 610)
+position = Vector2(885, 613)
+tackler = true
 
 [node name="LinebackerEnemy3" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(286, 663)
+position = Vector2(885, 666)
 
 [node name="Wideout" parent="." instance=ExtResource("6_qfnet")]
-position = Vector2(163, 589)
+position = Vector2(762, 592)
 
 [node name="Qb" parent="." instance=ExtResource("7_4mrxx")]
-position = Vector2(65, 602)
+position = Vector2(664, 605)
 
 [node name="Miss" type="Area2D" parent="."]
 
@@ -96,7 +116,17 @@ shape = SubResource("RectangleShape2D_i7141")
 position = Vector2(1437, -635)
 shape = SubResource("RectangleShape2D_4mrxx")
 
+[node name="endzone" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="endzone"]
+position = Vector2(1213.5, 584.75)
+shape = SubResource("RectangleShape2D_7r4gi")
+
 [connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
 [connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
+[connection signal="td" from="Wideout" to="." method="_on_wideout_td"]
+[connection signal="sacked" from="Qb" to="." method="_on_qb_sacked"]
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]

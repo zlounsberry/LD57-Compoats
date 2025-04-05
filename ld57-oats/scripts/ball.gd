@@ -8,4 +8,10 @@ func get_thrown(throw_strength: float, throw_direction: Vector2):
 	freeze = false
 	#apply_impulse(THROWN_ADJUSTMENT * Vector2(throw_strength, -throw_strength), throw_direction)
 	apply_central_impulse(THROWN_ADJUSTMENT * Vector2(throw_strength, -throw_strength))
-	
+
+
+func get_caught():
+	set_deferred("freeze", true)
+	$AnimationPlayer.play("catch")
+	await $AnimationPlayer.animation_finished
+	queue_free()

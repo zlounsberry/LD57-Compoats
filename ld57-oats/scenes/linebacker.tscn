@@ -151,7 +151,7 @@ _data = {
 &"idle": SubResource("Animation_p3q87")
 }
 
-[node name="Linebacker" type="Node2D"]
+[node name="Linebacker" type="Node2D" groups=["linebacker"]]
 script = ExtResource("1_p3q87")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -167,7 +167,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="Timeout" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 6.0
 one_shot = true
 autostart = true
 

@@ -1,10 +1,13 @@
 extends Node2D
 
-signal hit
+@export var tackler: bool = false
+
 
 func _ready() -> void:
 	$AnimationPlayer.play("RESET")
 	$AnimationPlayer.play("idle")
+	if tackler:
+		$Area2D.add_to_group("tackler")
 
 
 func run_anim(move_towards: Vector2) -> void:
@@ -15,10 +18,6 @@ func run_anim(move_towards: Vector2) -> void:
 
 func _defeated():
 	$AnimationPlayer.play("defeated")
-
-
-func _on_area_2d_area_entered(area: Area2D) -> void:
-	hit.emit()
 
 
 func _on_timeout_timeout() -> void:
