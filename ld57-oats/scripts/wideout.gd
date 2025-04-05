@@ -9,7 +9,7 @@ signal oob # for out of bounds when they pass endzone
 
 @export var speed: float = 0.0 # Start at 0 and take off when the play starts
 @export var caught_ball: bool = false
-@export var eye_adjustment_value: float = 0.0
+
 
 @onready var shader_updating: bool = true
 @onready var speed_range: Vector2 = Vector2(40.0, 80.0)
@@ -57,8 +57,8 @@ func _on_shader_increment_timeout() -> void:
 	if x_diff_from_start <= 0:
 		return
 	if blur_strength > 0:
-		blur_strength -= abs((x_diff_from_start / (7500 + (7500 * eye_adjustment_value)))) # Hardcode for now
+		blur_strength -= (0.05 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
 	shader_material.set_shader_parameter("blur_strength", blur_strength)
-	if blur_strength <= 0.60:
-		opacity_strength += abs((x_diff_from_start / (200 + (200 * eye_adjustment_value)))) # Hardcode for now
+	if blur_strength <= 0.40:
+		opacity_strength += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
 	shader_material.set_shader_parameter("opacity_reduction", opacity_strength)

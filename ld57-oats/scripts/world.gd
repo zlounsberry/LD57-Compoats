@@ -13,9 +13,13 @@ const PLAY_Y_POSITION: float = 588.0
 
 
 func _ready():
+	if Globals.current_level > Globals.MAX_ROUNDS:
+		print("YOU WIN")
+		return
 	eye_adjustment = randf_range(-2.0, 2.0)
 	_update_play()
 	$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
+	$UI/Down.text = str("DOWN: ", current_play_count)
 	$UI/AnimationPlayer.play("fade_in")
 
 
@@ -41,7 +45,6 @@ func _input(event: InputEvent) -> void:
 				play_child.get_node("Wideout").speed_range.y
 			)
 			play_child.get_node("Wideout/ShaderIncrement").start() 
-			play_child.get_node("Wideout").eye_adjustment_value = eye_adjustment
 		$Sounds/Hike.play()
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
 			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
@@ -69,9 +72,6 @@ func _input(event: InputEvent) -> void:
 
 func _fail_state():
 	$Camera2D.start_shake()
-	if current_play_count > 4:
-		print("rond over")
-		return
 	current_play_count += 1
 	Engine.time_scale = 1.0
 	$UI/AnimationPlayer.play("fade_out")
@@ -91,10 +91,8 @@ func _success_state(td: bool, new_position: float):
 		Globals.current_level += 1
 		get_tree().reload_current_scene()
 	else:
-		if current_play_count > 4:
-			print("rond over")
-			return
 		current_play_count += 1
+		Globals.current_x_position = new_position
 		_update_play()
 		$UI/AnimationPlayer.play("fade_in")
 		await $UI/AnimationPlayer.animation_finished
@@ -103,6 +101,10 @@ func _success_state(td: bool, new_position: float):
 func _update_play():
 	if not is_inside_tree():
 		return # this should avoid null group call for the next line
+	
+	if current_play_count > 4:
+		print("rond over")
+		return
 	for play_child in get_tree().get_nodes_in_group("play"):
 		play_child.queue_free()
 	var new_play = PLAY.instantiate()
@@ -112,11 +114,14 @@ func _update_play():
 		Globals.current_x_position = new_play.position.x
 	else:
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
+	$UI/Down.text = str("DOWN: ", current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
 	new_play.wideout_oob.connect(_on_play_wideout_oob)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
 	new_play.qb_threw_ball.connect(_on_play_qb_threw_ball)
+	for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
+		linebacker_child.timer_increment = Globals.LEVEL_DICTIONARY[Globals.current_level]["defense_timer"]
 	is_throwing = false # reset play states
 	has_thrown = false # reset play states
 	play_started = false # reset play states
@@ -149,7 +154,7 @@ func _on_play_ball_caught() -> void:
 		play_child.get_node("Ball").get_caught()
 	var catch_position: float
 	for wideout_child in get_tree().get_nodes_in_group("wideout"):
-		catch_position = wideout_child.position.x
+		catch_position = wideout_child.global_position.x
 	_success_state(false, catch_position)
 
 

@@ -117,7 +117,16 @@ offset_right = 338.0
 offset_bottom = 37.0
 theme = ExtResource("3_k0juu")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "RIGHT:"
+text = "EYES:"
+
+[node name="Down" type="Label" parent="UI"]
+offset_left = 448.0
+offset_top = 14.0
+offset_right = 575.0
+offset_bottom = 39.0
+theme = ExtResource("3_k0juu")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "DOWN:"
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 offset_left = -32.0
