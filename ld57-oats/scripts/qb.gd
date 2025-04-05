@@ -1,6 +1,7 @@
 extends Node2D
 
 signal sacked
+signal ball_thrown
 
 @onready var has_thrown: bool = false
 
@@ -14,6 +15,8 @@ func throw():
 	has_thrown = true
 	$AnimatedSprite2D.stop()
 	$AnimationPlayer.play("throw")
+	await $AnimationPlayer.animation_finished
+	ball_thrown.emit()
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dji48svlyhooo" path="res://scenes/wideout.tscn" id="5_e1qq8"]
 [ext_resource type="PackedScene" uid="uid://m8kdc2mkebs1" path="res://scenes/qb.tscn" id="6_i0842"]
 
-[node name="Play" type="Node2D"]
+[node name="Play" type="Node2D" groups=["play"]]
 script = ExtResource("1_j27tm")
 
 [node name="Ball" parent="." instance=ExtResource("2_1o7w5")]
@@ -41,4 +41,5 @@ position = Vector2(-228, -59)
 [connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
 [connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
 [connection signal="td" from="Wideout" to="." method="_on_wideout_td"]
+[connection signal="ball_thrown" from="Qb" to="." method="_on_qb_ball_thrown"]
 [connection signal="sacked" from="Qb" to="." method="_on_qb_sacked"]

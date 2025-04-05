@@ -15,6 +15,7 @@ func _ready() -> void:
 func run_anim(move_towards: Vector2) -> void:
 	$AnimatedSprite2D.play("run")
 	var tween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
+	#tween.add_to_group("tween")
 	tween.tween_property(self, "position", move_towards, 5.0)
 
 
