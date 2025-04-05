@@ -9,6 +9,7 @@ const PLAY_Y_POSITION: float = 588.0
 @onready var is_throwing: bool = false
 @onready var has_thrown: bool = false
 @onready var play_started: bool = false
+@onready var is_narrating: bool = true
 @onready var current_play_count: int = 1
 
 
