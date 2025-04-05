@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://x61l528bln50"]
+
+[ext_resource type="FontFile" uid="uid://b3g8p04xoaxq4" path="res://assets/NotJamSlabSerif11.ttf" id="1_xgdp2"]
+
+[resource]
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_xgdp2")

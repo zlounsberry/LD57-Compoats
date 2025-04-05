@@ -1,17 +1,14 @@
 extends Node2D
 
 @export var throw_strength: float = 1.0
-@export var right_eye_adjustment: int
-@export var left_eye_adjustment: int
+@export var eye_adjustment: float
 
 @onready var is_throwing: bool = false
 @onready var has_thrown: bool = false
 
 func _ready():
-	right_eye_adjustment = randi_range(-20, 20)
-	left_eye_adjustment = randi_range(-20, 20)
-	$UI/LeftEye.text = str("LEFT: ", left_eye_adjustment)
-	$UI/RightEye.text = str("RIGHT: ", right_eye_adjustment)
+	eye_adjustment = randf_range(-2.0, 2.0)
+	$UI/Adjustment.text = str("EYESIGHT: ", eye_adjustment)
 
 
 func _physics_process(delta: float) -> void:
@@ -31,6 +28,7 @@ func _input(event: InputEvent) -> void:
 		$Play/Wideout.speed = randf_range($Play/Wideout.speed_range.x, $Play/Wideout.speed_range.y)
 		print("speed = ", $Play/Wideout.speed)
 		$Play/Wideout/ShaderIncrement.start() # Start making the wideout blurrier as they go
+		$Play/Wideout.eye_adjustment_value = eye_adjustment
 
 
 	if event.is_action_pressed("throw"):

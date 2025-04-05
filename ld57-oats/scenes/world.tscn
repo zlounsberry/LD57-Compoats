@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=11 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://50rj8u3gnxs" path="res://scenes/play.tscn" id="3_4wyf3"]
+[ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/main_theme.tres" id="3_k0juu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71j4m"]
 atlas = ExtResource("2_k0juu")
@@ -55,21 +56,14 @@ offset_top = 10.0
 offset_right = 195.0
 offset_bottom = 37.0
 
-[node name="RightEye" type="Label" parent="UI"]
+[node name="Adjustment" type="Label" parent="UI"]
 offset_left = 211.0
 offset_top = 14.0
 offset_right = 338.0
 offset_bottom = 37.0
+theme = ExtResource("3_k0juu")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "RIGHT:"
-
-[node name="LeftEye" type="Label" parent="UI"]
-offset_left = 313.0
-offset_top = 14.0
-offset_right = 440.0
-offset_bottom = 37.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "LEFT:"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
