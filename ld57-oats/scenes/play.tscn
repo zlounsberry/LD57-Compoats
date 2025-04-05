@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://50rj8u3gnxs"]
+
+[ext_resource type="Script" uid="uid://cnuwd2uu01sm0" path="res://scripts/play.gd" id="1_j27tm"]
+[ext_resource type="PackedScene" uid="uid://mofbt2p5evdx" path="res://scenes/ball.tscn" id="2_1o7w5"]
+[ext_resource type="PackedScene" uid="uid://cu26fhx4iqtne" path="res://scenes/linebacker.tscn" id="3_nak7m"]
+[ext_resource type="PackedScene" uid="uid://cumerh5m1aqer" path="res://scenes/linebacker_enemy.tscn" id="4_efqae"]
+[ext_resource type="PackedScene" uid="uid://dji48svlyhooo" path="res://scenes/wideout.tscn" id="5_e1qq8"]
+[ext_resource type="PackedScene" uid="uid://m8kdc2mkebs1" path="res://scenes/qb.tscn" id="6_i0842"]
+
+[node name="Play" type="Node2D"]
+script = ExtResource("1_j27tm")
+
+[node name="Ball" parent="." instance=ExtResource("2_1o7w5")]
+position = Vector2(2, -44)
+
+[node name="Linebacker" parent="." instance=ExtResource("3_nak7m")]
+position = Vector2(-6, -108)
+
+[node name="Linebacker2" parent="." instance=ExtResource("3_nak7m")]
+position = Vector2(-6, -55)
+
+[node name="Linebacker3" parent="." instance=ExtResource("3_nak7m")]
+position = Vector2(-6, -1)
+
+[node name="LinebackerEnemy" parent="." instance=ExtResource("4_efqae")]
+position = Vector2(60, -116)
+
+[node name="LinebackerEnemy2" parent="." instance=ExtResource("4_efqae")]
+position = Vector2(60, -58)
+tackler = true
+
+[node name="LinebackerEnemy3" parent="." instance=ExtResource("4_efqae")]
+position = Vector2(60, -5)
+
+[node name="Wideout" parent="." instance=ExtResource("5_e1qq8")]
+position = Vector2(-115, 46)
+
+[node name="Qb" parent="." instance=ExtResource("6_i0842")]
+position = Vector2(-228, -59)
+
+[connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
+[connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
+[connection signal="td" from="Wideout" to="." method="_on_wideout_td"]

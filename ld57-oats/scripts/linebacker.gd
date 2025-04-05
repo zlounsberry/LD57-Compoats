@@ -5,7 +5,7 @@ extends Node2D
 
 func _ready() -> void:
 	$AnimationPlayer.play("RESET")
-	$AnimationPlayer.play("idle")
+	$AnimationPlayer.play("idle_pre_play")
 	if tackler:
 		$Area2D.add_to_group("tackler")
 
@@ -24,5 +24,6 @@ func _on_timeout_timeout() -> void:
 	if self.is_in_group("enemy"):
 		var qb_location: Vector2 = get_parent().get_node("Qb").position
 		run_anim(qb_location)
+		$AnimationPlayer.stop()
 	else:
 		_defeated()

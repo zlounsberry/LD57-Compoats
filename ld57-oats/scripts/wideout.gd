@@ -1,6 +1,10 @@
 extends Node2D
 
-@export var speed: float = 50.0
+## Wideout CatchBox is set to disabled until the qb grabs the ball, then it's turned on again. This prevents early catch
+
+const SPEED: float = 50.0
+
+@export var speed: float = 0.0 # Start at 0 and take off when the play starts
 @export var caught_ball: bool = false
 
 

@@ -1,12 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=10 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
-[ext_resource type="PackedScene" uid="uid://mofbt2p5evdx" path="res://scenes/ball.tscn" id="3_i7141"]
-[ext_resource type="PackedScene" uid="uid://cu26fhx4iqtne" path="res://scenes/linebacker.tscn" id="4_k0juu"]
-[ext_resource type="PackedScene" uid="uid://cumerh5m1aqer" path="res://scenes/linebacker_enemy.tscn" id="5_71j4m"]
-[ext_resource type="PackedScene" uid="uid://dji48svlyhooo" path="res://scenes/wideout.tscn" id="6_qfnet"]
-[ext_resource type="PackedScene" uid="uid://m8kdc2mkebs1" path="res://scenes/qb.tscn" id="7_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://50rj8u3gnxs" path="res://scenes/play.tscn" id="3_4wyf3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71j4m"]
 atlas = ExtResource("2_k0juu")
@@ -78,34 +74,6 @@ text = "LEFT:"
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
 
-[node name="Ball" parent="." instance=ExtResource("3_i7141")]
-position = Vector2(660, 605)
-
-[node name="Linebacker" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(819, 563)
-
-[node name="Linebacker2" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(819, 616)
-
-[node name="Linebacker3" parent="." instance=ExtResource("4_k0juu")]
-position = Vector2(819, 670)
-
-[node name="LinebackerEnemy" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(885, 555)
-
-[node name="LinebackerEnemy2" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(885, 613)
-tackler = true
-
-[node name="LinebackerEnemy3" parent="." instance=ExtResource("5_71j4m")]
-position = Vector2(885, 666)
-
-[node name="Wideout" parent="." instance=ExtResource("6_qfnet")]
-position = Vector2(762, 592)
-
-[node name="Qb" parent="." instance=ExtResource("7_4mrxx")]
-position = Vector2(664, 605)
-
 [node name="Miss" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Miss"]
@@ -124,9 +92,11 @@ collision_mask = 16
 position = Vector2(1213.5, 584.75)
 shape = SubResource("RectangleShape2D_7r4gi")
 
-[connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
-[connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
-[connection signal="td" from="Wideout" to="." method="_on_wideout_td"]
-[connection signal="sacked" from="Qb" to="." method="_on_qb_sacked"]
+[node name="Play" parent="." instance=ExtResource("3_4wyf3")]
+position = Vector2(515, 587)
+
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]
+[connection signal="ball_caught" from="Play" to="." method="_on_play_ball_caught"]
+[connection signal="wideout_oob" from="Play" to="." method="_on_play_wideout_oob"]
+[connection signal="wideout_td" from="Play" to="." method="_on_play_wideout_td"]

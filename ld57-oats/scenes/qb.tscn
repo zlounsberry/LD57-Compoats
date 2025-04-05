@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://m8kdc2mkebs1"]
+[gd_scene load_steps=12 format=3 uid="uid://m8kdc2mkebs1"]
 
 [ext_resource type="Script" uid="uid://dr4hmyc5ypqfi" path="res://scripts/qb.gd" id="1_gk3eb"]
 [ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_jcmhg"]
@@ -145,6 +145,10 @@ _data = {
 radius = 16.0
 height = 46.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jcmhg"]
+radius = 15.0
+height = 50.0
+
 [node name="Qb" type="Node2D" groups=["qb"]]
 script = ExtResource("1_gk3eb")
 
@@ -168,4 +172,12 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_gk3eb")
 
+[node name="CatchHike" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CatchHike"]
+shape = SubResource("CapsuleShape2D_jcmhg")
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="CatchHike" to="." method="_on_catch_hike_body_entered"]

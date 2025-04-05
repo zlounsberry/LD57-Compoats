@@ -24,6 +24,13 @@ func _input(event: InputEvent) -> void:
 	if has_thrown:
 		return # early return if the ball is released - any UI stuff should go above here
 	
+	if event.is_action_pressed("ui_up"):
+		$Play.hike_ball()
+		for linebacker in get_tree().get_nodes_in_group("linebacker"):
+			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
+		$Play/Wideout.speed = $Play/Wideout.SPEED
+
+
 	if event.is_action_pressed("throw"):
 		if is_throwing:
 			return # Avoid stutter-stepping spacebar
@@ -34,16 +41,18 @@ func _input(event: InputEvent) -> void:
 		has_thrown = true # Avoid stutter-stepping spacebar
 		is_throwing = false # Avoid stutter-stepping spacebar
 		Engine.time_scale = 0.25 # Slow down for max dramas
-		$Qb.throw() # Play QB animation and set its state
-		$Ball.get_thrown(throw_strength, Vector2.ZERO) # Zero as a placeholder for when I add directionality
-		$Wideout.dive() # Play wideout dive animation
+		$Play/Qb.throw() # Play QB animation and set its state
+		$Play/Ball.get_thrown(throw_strength, Vector2.ZERO) # Zero as a placeholder for when I add directionality
+		$Play/Wideout.dive() # Play wideout dive animation
 
 
 func _fail_state():
+	Engine.time_scale = 1.0
 	print("failure!")
 
 
 func _success_state(td: bool, new_position: float):
+	Engine.time_scale = 1.0
 	if td:
 		print("round over! you win!")
 	else:
@@ -56,26 +65,25 @@ func _on_miss_body_entered(_body: Node2D) -> void:
 	_fail_state()
 
 
-func _on_wideout_catch() -> void:
-	for linebacker in get_tree().get_nodes_in_group("linebacker"):
-		linebacker.get_node("Timeout").stop() # Stop the play from breaking down once the ball is thrown
-	$Ball.get_caught()
-	Engine.time_scale = 1.0
-	var catch_position: float = $Wideout.position.x
-	_success_state(false, catch_position)
+func _on_qb_sacked() -> void:
+	print("sacked!")
+	_fail_state()
 
 
-func _on_wideout_oob() -> void:
+func _on_play_wideout_td() -> void:
+	_success_state(true, 0.0) # win condition for the round
+
+
+func _on_play_wideout_oob() -> void:
 	print("oob!")
 	$Ball.queue_free()
 	$Wideout.queue_free()
 	_fail_state()
 
 
-func _on_wideout_td() -> void:
-	_success_state(true, 0.0) # win condition for the round
-
-
-func _on_qb_sacked() -> void:
-	print("sacked!")
-	_fail_state()
+func _on_play_ball_caught() -> void:
+	for linebacker in get_tree().get_nodes_in_group("linebacker"):
+		linebacker.get_node("Timeout").stop() # Stop the play from breaking down once the ball is thrown
+	$Play/Ball.get_caught()
+	var catch_position: float = $Play/Wideout.position.x
+	_success_state(false, catch_position)
