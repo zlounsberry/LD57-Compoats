@@ -28,7 +28,9 @@ func _input(event: InputEvent) -> void:
 		$Play.hike_ball()
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
 			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
-		$Play/Wideout.speed = $Play/Wideout.SPEED
+		$Play/Wideout.speed = randf_range($Play/Wideout.speed_range.x, $Play/Wideout.speed_range.y)
+		print("speed = ", $Play/Wideout.speed)
+		$Play/Wideout/ShaderIncrement.start() # Start making the wideout blurrier as they go
 
 
 	if event.is_action_pressed("throw"):
@@ -44,6 +46,7 @@ func _input(event: InputEvent) -> void:
 		$Play/Qb.throw() # Play QB animation and set its state
 		$Play/Ball.get_thrown(throw_strength, Vector2.ZERO) # Zero as a placeholder for when I add directionality
 		$Play/Wideout.dive() # Play wideout dive animation
+		$Play/Wideout.reset_shader() # Show the player where the wideout is
 
 
 func _fail_state():

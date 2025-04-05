@@ -4,7 +4,12 @@ signal ball_caught
 signal wideout_oob
 signal wideout_td
 
+@export var left_adjustment: int = 0.0
+@export var right_adjustment: int = 0.0
+
+
 @onready var play_started: bool = false
+
 
 func hike_ball():
 	if play_started:

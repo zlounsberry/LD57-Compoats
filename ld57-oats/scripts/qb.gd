@@ -5,6 +5,11 @@ signal sacked
 @onready var has_thrown: bool = false
 
 
+func _ready() -> void:
+	$AnimationPlayer.play("RESET")
+	$AnimationPlayer.play("idle_pre_play")
+
+
 func throw():
 	has_thrown = true
 	$AnimatedSprite2D.stop()
