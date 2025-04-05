@@ -3,6 +3,7 @@ extends Node2D
 signal ball_caught
 signal wideout_oob
 signal wideout_td
+signal qb_sacked
 
 @export var left_adjustment: int = 0.0
 @export var right_adjustment: int = 0.0
@@ -37,3 +38,7 @@ func _on_wideout_oob() -> void:
 
 func _on_wideout_td() -> void:
 	wideout_td.emit()
+
+
+func _on_qb_sacked() -> void:
+	qb_sacked.emit()

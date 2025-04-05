@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dqfvr1jxhg3ol"
-path="res://.godot/imported/Not Jam Third Dimension 15.ttf-c2a41d74d1ab5925ab701663d450fa81.fontdata"
+uid="uid://b3g8p04xoaxq4"
+path="res://.godot/imported/NotJamSlabSerif11.ttf-e01d21d947537ed2411e68a0780f47d2.fontdata"
 
 [deps]
 
-source_file="res://assets/Not Jam Third Dimension 15.ttf"
-dest_files=["res://.godot/imported/Not Jam Third Dimension 15.ttf-c2a41d74d1ab5925ab701663d450fa81.fontdata"]
+source_file="res://assets/resources/NotJamSlabSerif11.ttf"
+dest_files=["res://.godot/imported/NotJamSlabSerif11.ttf-e01d21d947537ed2411e68a0780f47d2.fontdata"]
 
 [params]
 

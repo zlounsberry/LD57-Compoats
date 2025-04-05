@@ -23,6 +23,7 @@ func _input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("ui_up"):
 		$Play.hike_ball()
+		$Sounds/Hike.play()
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
 			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
 		$Play/Wideout.speed = randf_range($Play/Wideout.speed_range.x, $Play/Wideout.speed_range.y)
@@ -38,6 +39,7 @@ func _input(event: InputEvent) -> void:
 		is_throwing = true # Set to the throwing state
 
 	if event.is_action_released("throw"):
+		$Sounds/Throw.play()
 		has_thrown = true # Avoid stutter-stepping spacebar
 		is_throwing = false # Avoid stutter-stepping spacebar
 		Engine.time_scale = 0.25 # Slow down for max dramas
@@ -62,12 +64,8 @@ func _success_state(td: bool, new_position: float):
 
 func _on_miss_body_entered(_body: Node2D) -> void:
 	print("incomplete!")
+	$Sounds/Miss.play()
 	$Ball.queue_free()
-	_fail_state()
-
-
-func _on_qb_sacked() -> void:
-	print("sacked!")
 	_fail_state()
 
 
@@ -83,8 +81,13 @@ func _on_play_wideout_oob() -> void:
 
 
 func _on_play_ball_caught() -> void:
+	$Sounds/Catch.play()
 	for linebacker in get_tree().get_nodes_in_group("linebacker"):
 		linebacker.get_node("Timeout").stop() # Stop the play from breaking down once the ball is thrown
 	$Play/Ball.get_caught()
 	var catch_position: float = $Play/Wideout.position.x
 	_success_state(false, catch_position)
+
+
+func _on_play_qb_sacked() -> void:
+	_fail_state()

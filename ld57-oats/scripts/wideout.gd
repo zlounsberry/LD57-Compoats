@@ -58,9 +58,9 @@ func _on_shader_increment_timeout() -> void:
 	if x_diff_from_start <= 0:
 		return
 	if blur_strength > 0:
-		blur_strength -= (x_diff_from_start / (7500 + (7500 * eye_adjustment_value))) # Hardcode for now
+		blur_strength -= abs((x_diff_from_start / (7500 + (7500 * eye_adjustment_value)))) # Hardcode for now
 		print(blur_strength)
 	shader_material.set_shader_parameter("blur_strength", blur_strength)
-	if opacity_strength < 1:
-		opacity_strength += (x_diff_from_start / (2000 + (200 * eye_adjustment_value))) # Hardcode for now
+	if blur_strength <= 0.60:
+		opacity_strength += abs((x_diff_from_start / (200 + (200 * eye_adjustment_value)))) # Hardcode for now
 	shader_material.set_shader_parameter("opacity_reduction", opacity_strength)
