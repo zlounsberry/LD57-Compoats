@@ -56,11 +56,11 @@ func _input(event: InputEvent) -> void:
 			return
 		$UI/SquintInstruction.show()
 		$UI/SquintIndicator.show()
+		for child in $UI/Instructions.get_children():
+			child.hide()
 		if Globals.current_level == 0:
 			$UI/Instruct.text = "Hold down Left Mouse Button or Space to charge throw"
-			for child in $UI/Instructions.get_children():
-				child.hide()
-		$UI/Instructions/Hold.show()
+			$UI/Instructions/Hold.show()
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.hike_ball()
 			play_child.get_node("Wideout").speed = randf_range(
@@ -182,7 +182,9 @@ func _game_over(win_state: bool):
 	await textbox.dialog_done
 	Globals.current_level = 0
 	Globals.current_play_count = 1
-	get_tree().reload_current_scene()
+	$UI/AnimationPlayer.play("fade_out")
+	await $UI/AnimationPlayer.animation_finished
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 
 func _update_play():

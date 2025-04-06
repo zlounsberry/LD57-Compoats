@@ -1,0 +1,174 @@
+[gd_scene load_steps=15 format=3 uid="uid://b4flp0t65haba"]
+
+[ext_resource type="Texture2D" uid="uid://de7fvsd03f1t7" path="res://assets/title.png" id="1_4ignj"]
+[ext_resource type="Script" uid="uid://dxux6h63ujndn" path="res://scripts/title.gd" id="1_pyl7j"]
+[ext_resource type="FontFile" uid="uid://dqfvr1jxhg3ol" path="res://assets/resources/Not Jam Third Dimension 15.ttf" id="3_b3w7a"]
+[ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/resources/main_theme.tres" id="4_4rr2b"]
+[ext_resource type="AudioStream" uid="uid://57vdudkc1651" path="res://assets/sounds/oats_custom/hike.ogg" id="5_ia1n6"]
+[ext_resource type="AudioStream" uid="uid://co8amvw1xfs7x" path="res://assets/sounds/oats_custom/hut1.ogg" id="6_hiwto"]
+[ext_resource type="AudioStream" uid="uid://qepxkp11jpfl" path="res://assets/sounds/oats_custom/hut2.ogg" id="7_w65of"]
+[ext_resource type="AudioStream" uid="uid://if2m6brdn6ko" path="res://assets/sounds/oats_custom/hut3.ogg" id="8_ygloa"]
+[ext_resource type="Texture2D" uid="uid://br8scg445ryy7" path="res://assets/NinePatch.png" id="9_hiwto"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6civk"]
+streams_count = 3
+stream_0/stream = ExtResource("6_hiwto")
+stream_1/stream = ExtResource("7_w65of")
+stream_1/weight = 3.0
+stream_2/stream = ExtResource("8_ygloa")
+stream_2/weight = 10.0
+
+[sub_resource type="Animation" id="Animation_w65of"]
+resource_name = "grow"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NinePatchRect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(5, 0.1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hiwto"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NinePatchRect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ygloa"]
+resource_name = "shrink"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NinePatchRect:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(5, 0.1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ygloa"]
+_data = {
+&"RESET": SubResource("Animation_hiwto"),
+&"grow": SubResource("Animation_w65of"),
+&"shrink": SubResource("Animation_ygloa")
+}
+
+[node name="Title" type="Node2D"]
+script = ExtResource("1_pyl7j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(640, 360)
+scale = Vector2(4, 4)
+texture = ExtResource("1_4ignj")
+
+[node name="Title" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = 323.0
+offset_top = 43.0
+offset_right = 1252.0
+offset_bottom = 172.0
+theme_override_colors/default_color = Color(0.67451, 0.196078, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_fonts/normal_font = ExtResource("3_b3w7a")
+theme_override_font_sizes/normal_font_size = 128
+bbcode_enabled = true
+text = "[center][wave]Hail Mary"
+fit_content = true
+
+[node name="Start" type="Button" parent="."]
+offset_left = 785.0
+offset_top = 490.0
+offset_right = 1010.0
+offset_bottom = 582.0
+theme = ExtResource("4_4rr2b")
+text = "Start Game"
+
+[node name="HowTo" type="Button" parent="."]
+offset_left = 785.0
+offset_top = 607.0
+offset_right = 1010.0
+offset_bottom = 699.0
+theme = ExtResource("4_4rr2b")
+text = "How To Play"
+
+[node name="Hike" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ia1n6")
+volume_db = 5.0
+bus = &"sfx"
+
+[node name="Hut" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_6civk")
+bus = &"sfx"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+texture_filter = 1
+offset_left = 107.0
+offset_top = 25.0
+offset_right = 1109.0
+offset_bottom = 705.0
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("9_hiwto")
+patch_margin_left = 33
+patch_margin_top = 33
+patch_margin_right = 33
+patch_margin_bottom = 33
+
+[node name="Label" type="Label" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 999.0
+offset_bottom = 671.0
+theme = ExtResource("4_4rr2b")
+theme_override_font_sizes/font_size = 28
+text = "Controls, etc.:
+1) Press W or Up to hike the ball and start the play
+2) Hold LMB or Space to charge your throw. Release to throw the ball based on your charge time
+3) Squint to see your receiver (at the cost of seeing the defenders) by right clicking
+4) If your defense falls through, you can run around with WASD or Arrows. Careful, they get fast quick!
+5) Touchdowns advance you through the game.
+
+In case you don't know American Football at all, here are some tips:
+1) You want to get the ball into the hands of the running guy while he's in the blue area (the endzone)
+2) If he catches the ball ahead of that spot, your team will start from where the ball was caught
+3) Don't let the other team touch you. You only have 4 tries to get into the end zone!"
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 838.0
+offset_top = 604.0
+offset_right = 987.0
+offset_bottom = 661.0
+theme = ExtResource("4_4rr2b")
+text = "Close"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ygloa")
+}
+
+[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="HowTo" to="." method="_on_how_to_pressed"]
+[connection signal="pressed" from="NinePatchRect/Button" to="." method="_on_button_pressed"]
