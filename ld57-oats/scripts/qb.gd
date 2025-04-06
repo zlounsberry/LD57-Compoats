@@ -17,11 +17,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	handle_movement(delta)
+	handle_movement()
 	move_and_slide()
 
 
-func handle_movement(delta: float) -> void:
+func handle_movement() -> void:
 	var direction = Vector2.ZERO
 	if not is_scrambling:
 		return
@@ -53,7 +53,6 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if has_thrown:
 		return
 	if area.is_in_group("tackler"):
-		print("sacked")
 		sacked.emit()
 
 

@@ -1,7 +1,65 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://x61l528bln50"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://x61l528bln50"]
 
 [ext_resource type="FontFile" uid="uid://b3g8p04xoaxq4" path="res://assets/resources/NotJamSlabSerif11.ttf" id="1_xgdp2"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwa3o"]
+bg_color = Color(0, 0.207843, 0.286275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.623529, 0.854902, 0.8, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sl2bg"]
+bg_color = Color(0, 0.207843, 0.286275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.623529, 0.854902, 0.8, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgk5m"]
+bg_color = Color(0, 0.207843, 0.286275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.623529, 0.854902, 0.8, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vavpa"]
+bg_color = Color(0, 0.207843, 0.286275, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.623529, 0.854902, 0.8, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
 [resource]
-Label/font_sizes/font_size = 24
+Button/colors/font_color = Color(0, 0.564706, 1, 1)
+Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+Button/colors/font_outline_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_xgdp2")
+Button/styles/focus = SubResource("StyleBoxFlat_xwa3o")
+Button/styles/hover = SubResource("StyleBoxFlat_sl2bg")
+Button/styles/normal = SubResource("StyleBoxFlat_pgk5m")
+Button/styles/pressed = SubResource("StyleBoxFlat_vavpa")
+Label/font_sizes/font_size = 40
 Label/fonts/font = ExtResource("1_xgdp2")

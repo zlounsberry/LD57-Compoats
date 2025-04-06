@@ -4,18 +4,10 @@ signal ball_caught
 signal wideout_td
 signal qb_sacked
 signal qb_threw_ball
-signal linebacker_timer_expired
 
 @export var left_adjustment: int = 0.0
 @export var right_adjustment: int = 0.0
 
-
-func _ready() -> void:
-	for linebacker in get_tree().get_nodes_in_group("linebacker"):
-		linebacker.toggle_blurry(false)
-	#for wideout in get_tree().get_nodes_in_group("wideout"):
-		#wideout.toggle_blurry(false)
-		#wideout.reset_shader()
 
 func hike_ball():
 	$Ball.freeze = false

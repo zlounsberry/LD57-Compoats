@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cumerh5m1aqer"]
+[gd_scene load_steps=19 format=3 uid="uid://cumerh5m1aqer"]
 
 [ext_resource type="Script" uid="uid://c4gw206tf2ssm" path="res://scripts/linebacker.gd" id="1_p5g3v"]
 [ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_5ifuj"]
@@ -141,6 +141,42 @@ _data = {
 radius = 16.0
 height = 56.0
 
+[sub_resource type="Animation" id="Animation_5ifuj"]
+resource_name = "toggle_invisible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_g5cnr"]
+resource_name = "toggle_visible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_73jem"]
+_data = {
+&"toggle_invisible": SubResource("Animation_5ifuj"),
+&"toggle_visible": SubResource("Animation_g5cnr")
+}
+
 [node name="LinebackerEnemy" type="Node2D" groups=["enemy", "linebacker"]]
 script = ExtResource("1_p5g3v")
 
@@ -173,6 +209,11 @@ pitch_scale = 0.88
 bus = &"sfx"
 
 [node name="Chase" type="Timer" parent="."]
+
+[node name="Visible" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_73jem")
+}
 
 [connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]
 [connection signal="timeout" from="Chase" to="." method="_on_chase_timeout"]

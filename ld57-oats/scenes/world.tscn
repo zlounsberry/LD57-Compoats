@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=27 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
 [ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/resources/main_theme.tres" id="3_k0juu"]
+[ext_resource type="Texture2D" uid="uid://d4lv2tdk6teyp" path="res://assets/scoreboard.png" id="3_xo05s"]
 [ext_resource type="Script" uid="uid://bhkncvf0aijul" path="res://scripts/camera.gd" id="4_4mrxx"]
 [ext_resource type="AudioStream" uid="uid://bxr6aoo25afd7" path="res://assets/sounds/oats_custom/catch.ogg" id="5_jhx03"]
 [ext_resource type="AudioStream" uid="uid://57vdudkc1651" path="res://assets/sounds/oats_custom/hike.ogg" id="6_o8fc1"]
@@ -13,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://dykcy2kgucd0w" path="res://assets/sounds/jsfx/miss.wav" id="9_w7kh3"]
 [ext_resource type="AudioStream" uid="uid://c50vbu0g2qn7b" path="res://assets/sounds/oats_custom/throw_grunt.ogg" id="10_lakw3"]
 [ext_resource type="AudioStream" uid="uid://easxqlx3e14b" path="res://assets/sounds/oats_custom/whistle.ogg" id="10_w7kh3"]
+[ext_resource type="AudioStream" uid="uid://cfb7ntlhsxlew" path="res://assets/sounds/oats_custom/touchdown.ogg" id="14_o8fc1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71j4m"]
 atlas = ExtResource("2_k0juu")
@@ -115,6 +117,13 @@ scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_i7141")
 autoplay = "default"
 
+[node name="Scoreboard" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(219, 94)
+scale = Vector2(4, 4)
+texture = ExtResource("3_xo05s")
+hframes = 4
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Down" type="Label" parent="UI"]
@@ -166,7 +175,7 @@ shape = SubResource("RectangleShape2D_7r4gi")
 
 [node name="Catch" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("5_jhx03")
-volume_db = -15.0
+volume_db = 5.0
 bus = &"sfx"
 
 [node name="Hike" type="AudioStreamPlayer" parent="Sounds"]
@@ -180,7 +189,6 @@ bus = &"sfx"
 
 [node name="Throw" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("10_lakw3")
-volume_db = -12.0
 pitch_scale = 0.81
 bus = &"sfx"
 
@@ -198,6 +206,12 @@ bus = &"sfx"
 [node name="Whistle" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("10_w7kh3")
 pitch_scale = 1.09
+bus = &"sfx"
+
+[node name="TD" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("14_o8fc1")
+volume_db = 15.0
+bus = &"sfx"
 
 [node name="QBBlocker" type="StaticBody2D" parent="."]
 collision_layer = 64
@@ -210,7 +224,7 @@ polygon = PackedVector2Array(0, 446, 1280, 446, 1280, 380, -86, 382, -82, 770, 1
 position = Vector2(1213, 701)
 
 [node name="SquintTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 1.1
 one_shot = true
 
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
