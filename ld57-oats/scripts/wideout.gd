@@ -19,6 +19,7 @@ signal td
 
 
 func dive():
+	$AnimatedSprite2D.modulate.a = 1.0
 	$AnimatedSprite2D.play("dive")
 	$AnimationPlayer.play("dive")
 
@@ -36,15 +37,15 @@ func _physics_process(delta: float) -> void:
 
 
 func reset_shader():
-	shader_updating = false
-	shader_material.set_shader_parameter("blur_strength", 1.0)
-	shader_material.set_shader_parameter("opacity_reduction", 0.0)
+	pass
+	#shader_updating = false
+	#shader_material.set_shader_parameter("blur_strength", 1.0)
+	#shader_material.set_shader_parameter("opacity_reduction", 0.0)
 
 
 func toggle_blurry(is_blurry: bool) -> void:
 	if not can_toggle_blurry:
 		return
-	reset_shader()
 	#if is_blurry:
 		#if blur_strength > 0:
 			#blur_strength -= (0.05 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
@@ -67,9 +68,9 @@ func toggle_blurry(is_blurry: bool) -> void:
 		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	if is_blurry:
-		tween.tween_property(self, "modulate:a", 0.0, Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_wideout"])
+		tween.tween_property($AnimatedSprite2D, "modulate:a", 0.0, 1.0)
 	else:
-		tween.tween_property(self, "modulate:a", 1.0, Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_wideout"])
+		tween.tween_property($AnimatedSprite2D, "modulate:a", 1.0, 3.0)
 
 
 func _on_catch_box_body_entered(_body: Node2D) -> void:
@@ -78,24 +79,23 @@ func _on_catch_box_body_entered(_body: Node2D) -> void:
 	var endzone: Array = $TD.get_overlapping_areas()
 	catch.emit()
 	if not endzone.is_empty():
-		print("touchdown!")
 		td.emit()
 		return
 
 
 func _on_shader_increment_timeout() -> void:
-	# Let's say at 20 yards from the line of scrimmage the player will more or less lose sight of the 
+	# Let's say at 10 yards from the line of scrimmage the player will more or less lose sight of the wideout
+	# Keeping the poor naming convention from when I used a shader here...
 	if not shader_updating:
 		return
 	var x_diff_from_start = global_position.x - get_parent().global_position.x
 	if x_diff_from_start <= 0:
 		return
-	if blur_strength > 0:
-		blur_strength -= (0.05 * Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_wideout"])
-	#shader_material.set_shader_parameter("blur_strength", blur_strength) # Blur was pulling in nearby frames, drove me nuts so no blur
-	if blur_strength <= 0.40:
-		opacity_reduction += (0.025 * Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_wideout"])
-	shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
+	$ShaderIncrement.stop()
+	while $AnimatedSprite2D.modulate.a > 0:
+		$AnimatedSprite2D.modulate.a -= 0.005
+		await get_tree().create_timer(0.01).timeout
+	
 
 
 func _on_endzone_timeout() -> void:

@@ -71,6 +71,8 @@ func _input(event: InputEvent) -> void:
 				get_tree().paused = false
 				dialog_done.emit()
 				queue_free()
+			if not is_inside_tree():
+				return # this should avoid null group call for the next function
 			var tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
 			tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS) # Wow I just learned you need to update the pause mode of tweens you add?? Wild
 			tween.tween_property($Label, "modulate:a", 0.0, 1.0)

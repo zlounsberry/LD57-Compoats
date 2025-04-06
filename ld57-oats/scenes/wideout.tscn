@@ -1,14 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://dji48svlyhooo"]
+[gd_scene load_steps=14 format=3 uid="uid://dji48svlyhooo"]
 
 [ext_resource type="Script" uid="uid://1fseycua7h6m" path="res://scripts/wideout.gd" id="1_kxohe"]
 [ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_7jkhm"]
-[ext_resource type="Shader" uid="uid://lq1qi7haqp08" path="res://assets/blur_wr.gdshader" id="2_yoaqb"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pnmps"]
-shader = ExtResource("2_yoaqb")
-shader_parameter/blur_strength = 1.0
-shader_parameter/opacity_reduction = 0.0
-shader_parameter/kernel_size = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yoaqb"]
 atlas = ExtResource("2_7jkhm")
@@ -131,7 +124,6 @@ script = ExtResource("1_kxohe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_pnmps")
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_y6au4")
 frame = 1
@@ -161,7 +153,6 @@ shape = SubResource("CapsuleShape2D_kxohe")
 wait_time = 0.1
 
 [node name="Endzone" type="Timer" parent="."]
-wait_time = 2.0
 autostart = true
 
 [connection signal="body_entered" from="CatchBox" to="." method="_on_catch_box_body_entered"]

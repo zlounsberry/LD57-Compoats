@@ -70,7 +70,9 @@ func _input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("squint"):
 		if not can_toggle_squint:
+			print("timer not up yet")
 			return
+		print("squinting")
 		can_toggle_squint = false
 		$SquintTimer.start()
 		is_squinting = !is_squinting # toggle true/false
@@ -82,7 +84,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("throw"):
 		if is_throwing:
 			return # Avoid stutter-stepping spacebar
-		Engine.time_scale = 0.5 # Slow down for better control and/or drama maybe who knows
+		Engine.time_scale = 0.75 # Slow down for better control and/or drama maybe who knows
 		is_throwing = true # Set to the throwing state
 		for qb in get_tree().get_nodes_in_group("qb"):
 			qb.is_throwing = true
@@ -103,20 +105,21 @@ func _input(event: InputEvent) -> void:
 
 
 func _fail_state():
+	Engine.time_scale = 1
 	$Camera2D.start_shake()
 	Globals.current_play_count += 1
-	Engine.time_scale = 1.0
 	$UI/AnimationPlayer.play("fade_out")
 	await $UI/AnimationPlayer.animation_finished
 	if Globals.current_play_count > 4:
 		var textbox = TEXTBOX.instantiate()
 		$UI.add_child(textbox)
 		textbox.game_over = true
+		Globals.current_play_count = 1
+		Globals.current_level = 0
 		await textbox.dialog_done
 	_update_play()
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
-	print("failure!")
 
 
 func _success_state(td: bool, new_position: float):
@@ -124,17 +127,17 @@ func _success_state(td: bool, new_position: float):
 	await get_tree().create_timer(1.0).timeout
 	$UI/AnimationPlayer.play("fade_out")
 	if td:
-		print("next level time")
 		# $Sounds/Whistle.play()
 		$Sounds/TD.play()
 		await $Sounds/TD.finished
 		Globals.current_level += 1
+		if Globals.current_level >= Globals.MAX_ROUNDS:
+			return
 		Globals.current_x_position = Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"]
 		get_tree().reload_current_scene()
 	else:
 		if touchdown:
 			return
-		print("next play time")
 		Globals.current_play_count += 1
 		Globals.current_x_position = new_position
 		_update_play()
@@ -158,6 +161,8 @@ func _update_play():
 	if Globals.current_play_count > 4:
 		_game_over()
 		return
+	$Scoreboard.frame = Globals.current_play_count - 1 # Need a -1 here coz it starts at 0
+	Engine.time_scale = 1.0
 	GlobalSound.update_pacing()
 	# $Sounds/Whistle.play()
 	for play_child in get_tree().get_nodes_in_group("play"):
@@ -185,7 +190,6 @@ func _update_play():
 
 
 func _on_miss_body_entered(_body: Node2D) -> void:
-	print("incomplete!")
 	$Sounds/Miss.play()
 	for play_child in get_tree().get_nodes_in_group("play"):
 		play_child.get_node("Ball").queue_free()
@@ -224,7 +228,6 @@ func _on_play_qb_threw_ball() -> void:
 		ball.global_position = play_child.get_node("Qb").global_position
 		ball.get_thrown(throw_strength)
 		play_child.get_node("Wideout").dive()
-		play_child.get_node("Wideout").reset_shader() # Show the player where the wideout is
 
 
 func _on_squint_timer_timeout() -> void:

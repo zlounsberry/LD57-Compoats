@@ -22,8 +22,6 @@ func run_anim() -> void:
 	$AnimatedSprite2D.play("run")
 	is_chasing = true
 	$Chase.start()
-	#var tween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
-	#tween.tween_property(self, "position", move_towards, 5.0)
 
 
 func _defeated():
@@ -33,31 +31,13 @@ func _defeated():
 func toggle_blurry(is_blurry: bool) -> void:
 	if not can_toggle_blurry:
 		return
-	#if is_blurry:
-		#if blur_strength > 0:
-			#blur_strength -= (0.05 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("blur_strength", blur_strength) # Blur was pulling in nearby frames, drove me nuts so no blur
-		#if blur_strength <= 0.40:
-			#opacity_reduction += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-		#while opacity_reduction >= 0:
-			#opacity_reduction += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-	#else:
-		#if blur_strength < 1.0:
-			#blur_strength += (0.05 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("blur_strength", blur_strength) # Blur was pulling in nearby frames, drove me nuts so no blur
-		#if blur_strength >= 0.60:
-			#opacity_reduction += (0.025 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-		#while opacity_reduction <= 1:
-			#opacity_reduction += (0.025 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
+	if not is_in_group("enemy"):
+		return
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
 	if is_blurry:
-		tween.tween_property(self, "modulate:a", 0.0, Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_linebacker"])
+		tween.tween_property($AnimatedSprite2D, "modulate:a", 0.0, 1.0)
 	else:
-		tween.tween_property(self, "modulate:a", 1.0, Globals.LEVEL_DICTIONARY[Globals.current_level]["blurry_timer_linebacker"])
+		tween.tween_property($AnimatedSprite2D, "modulate:a", 1.0, 3.0)
 
 
 func _on_timeout_timeout() -> void:
