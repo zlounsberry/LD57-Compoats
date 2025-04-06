@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=51 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://bhkncvf0aijul" path="res://scripts/camera.gd" id="4_4mrxx"]
 [ext_resource type="FontFile" uid="uid://dqfvr1jxhg3ol" path="res://assets/resources/Not Jam Third Dimension 15.ttf" id="5_dss4m"]
 [ext_resource type="AudioStream" uid="uid://bxr6aoo25afd7" path="res://assets/sounds/oats_custom/catch.ogg" id="5_jhx03"]
+[ext_resource type="FontFile" uid="uid://b3g8p04xoaxq4" path="res://assets/resources/NotJamSlabSerif11.ttf" id="6_7t5mc"]
 [ext_resource type="AudioStream" uid="uid://57vdudkc1651" path="res://assets/sounds/oats_custom/hike.ogg" id="6_o8fc1"]
+[ext_resource type="Texture2D" uid="uid://mjxtyimu4wev" path="res://assets/indicators.png" id="7_lakw3"]
 [ext_resource type="AudioStream" uid="uid://co8amvw1xfs7x" path="res://assets/sounds/oats_custom/hut1.ogg" id="7_xo05s"]
 [ext_resource type="AudioStream" uid="uid://qepxkp11jpfl" path="res://assets/sounds/oats_custom/hut2.ogg" id="8_dss4m"]
 [ext_resource type="AudioStream" uid="uid://dmukxegxljx0q" path="res://assets/sounds/oats_custom/takedown_2.ogg" id="9_7r4gi"]
@@ -37,6 +39,65 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lakw3"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctatt"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xgqkh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lakw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctatt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luhhm"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fh13f"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lakw3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_luhhm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fh13f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_munwf"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ts3gi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_munwf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
 }]
 
 [sub_resource type="Animation" id="Animation_w7kh3"]
@@ -103,6 +164,100 @@ _data = {
 &"fade_out": SubResource("Animation_7r4gi")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm21f"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2lf6f"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7iits"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oo54l"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpybi"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ctatt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm21f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2lf6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7iits")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oo54l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpybi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgqkh"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ts3gi"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0nbtd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgqkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ts3gi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nbtd"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37qwj"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_navra"]
+atlas = ExtResource("7_lakw3")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_luhhm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nbtd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37qwj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_navra")
+}],
+"loop": false,
+"name": &"default",
+"speed": 3.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i7141"]
 size = Vector2(2061.5, 259.75)
 
@@ -139,11 +294,34 @@ hframes = 4
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="Instructions" type="Node2D" parent="UI"]
+
+[node name="Hike" type="AnimatedSprite2D" parent="UI/Instructions"]
+texture_filter = 1
+position = Vector2(406, 57)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_xgqkh")
+autoplay = "default"
+
+[node name="Charge" type="AnimatedSprite2D" parent="UI/Instructions"]
+texture_filter = 1
+position = Vector2(406, 57)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_lakw3")
+autoplay = "default"
+
+[node name="Hold" type="AnimatedSprite2D" parent="UI/Instructions"]
+texture_filter = 1
+position = Vector2(406, 57)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ts3gi")
+autoplay = "default"
+
 [node name="Instruct" type="Label" parent="UI"]
-offset_left = 341.0
+offset_left = 475.0
 offset_top = 10.0
-offset_right = 1276.0
-offset_bottom = 51.0
+offset_right = 1271.0
+offset_bottom = 93.0
 theme = ExtResource("3_k0juu")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 28
@@ -153,11 +331,10 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Scramble" type="RichTextLabel" parent="UI"]
-visible = false
 clip_contents = false
-offset_left = 417.0
+offset_left = 383.0
 offset_top = 105.0
-offset_right = 1087.0
+offset_right = 1053.0
 offset_bottom = 202.0
 theme_override_colors/default_color = Color(0.67451, 0.196078, 0.196078, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -168,6 +345,63 @@ bbcode_enabled = true
 text = "[center][shake]SCRAMBLE!"
 fit_content = true
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI"]
+libraries = {
+&"": SubResource("AnimationLibrary_e3hyu")
+}
+
+[node name="Music" type="CheckBox" parent="UI"]
+offset_left = -3.0
+offset_top = 3.0
+offset_right = 97.0
+offset_bottom = 33.0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 6
+theme_override_fonts/font = ExtResource("6_7t5mc")
+theme_override_font_sizes/font_size = 20
+theme_override_constants/check_v_offset = -4
+button_pressed = true
+text = "Music"
+
+[node name="SFX" type="CheckBox" parent="UI"]
+offset_left = -3.0
+offset_top = 24.0
+offset_right = 97.0
+offset_bottom = 54.0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_constants/h_separation = 6
+theme_override_fonts/font = ExtResource("6_7t5mc")
+theme_override_font_sizes/font_size = 20
+theme_override_constants/check_v_offset = -4
+button_pressed = true
+text = "SFX"
+
+[node name="ScrambleIcons" type="AnimatedSprite2D" parent="UI"]
+texture_filter = 1
+position = Vector2(350, 145)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_ctatt")
+autoplay = "default"
+
+[node name="SquintInstruction" type="AnimatedSprite2D" parent="UI"]
+visible = false
+texture_filter = 1
+position = Vector2(1231, 131)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_0nbtd")
+autoplay = "default"
+
+[node name="SquintIndicator" type="AnimatedSprite2D" parent="UI"]
+visible = false
+texture_filter = 1
+position = Vector2(1110, 130)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_luhhm")
+
 [node name="ColorRect" type="ColorRect" parent="UI"]
 offset_left = -32.0
 offset_top = -41.0
@@ -175,11 +409,6 @@ offset_right = 1324.0
 offset_bottom = 762.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI"]
-libraries = {
-&"": SubResource("AnimationLibrary_e3hyu")
-}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)
@@ -260,6 +489,12 @@ position = Vector2(1213, 701)
 wait_time = 1.1
 one_shot = true
 
+[connection signal="mouse_entered" from="UI/Music" to="." method="_on_audio_mouse_entered"]
+[connection signal="mouse_exited" from="UI/Music" to="." method="_on_audio_mouse_exited"]
+[connection signal="toggled" from="UI/Music" to="." method="_on_music_toggled"]
+[connection signal="mouse_entered" from="UI/SFX" to="." method="_on_audio_mouse_entered"]
+[connection signal="mouse_exited" from="UI/SFX" to="." method="_on_audio_mouse_exited"]
+[connection signal="toggled" from="UI/SFX" to="." method="_on_sfx_toggled"]
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]
 [connection signal="timeout" from="SquintTimer" to="." method="_on_squint_timer_timeout"]

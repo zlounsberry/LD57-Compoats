@@ -27,6 +27,7 @@ func start_play_animations():
 func _on_linebacker_timer_expired() -> void:
 	$Qb.is_scrambling = true
 	get_parent().get_node("UI/Scramble").show()
+	get_parent().get_node("UI/ScrambleIcons").show()
 
 
 func _on_wideout_catch() -> void:
