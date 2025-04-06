@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://50rj8u3gnxs"]
+[gd_scene load_steps=8 format=3 uid="uid://50rj8u3gnxs"]
 
 [ext_resource type="Script" uid="uid://cnuwd2uu01sm0" path="res://scripts/play.gd" id="1_j27tm"]
 [ext_resource type="PackedScene" uid="uid://mofbt2p5evdx" path="res://scenes/ball.tscn" id="2_1o7w5"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://cumerh5m1aqer" path="res://scenes/linebacker_enemy.tscn" id="4_efqae"]
 [ext_resource type="PackedScene" uid="uid://dji48svlyhooo" path="res://scenes/wideout.tscn" id="5_e1qq8"]
 [ext_resource type="PackedScene" uid="uid://m8kdc2mkebs1" path="res://scenes/qb.tscn" id="6_i0842"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j27tm"]
+size = Vector2(131, 884)
 
 [node name="Play" type="Node2D" groups=["play"]]
 script = ExtResource("1_j27tm")
@@ -38,8 +41,15 @@ position = Vector2(-115, 46)
 [node name="Qb" parent="." instance=ExtResource("6_i0842")]
 position = Vector2(-228, -59)
 
+[node name="QBBlocker" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QBBlocker"]
+position = Vector2(64.5, -1)
+shape = SubResource("RectangleShape2D_j27tm")
+
 [connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
-[connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
 [connection signal="td" from="Wideout" to="." method="_on_wideout_td"]
 [connection signal="ball_thrown" from="Qb" to="." method="_on_qb_ball_thrown"]
 [connection signal="sacked" from="Qb" to="." method="_on_qb_sacked"]

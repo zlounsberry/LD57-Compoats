@@ -172,4 +172,7 @@ stream = ExtResource("3_5ifuj")
 volume_db = -10.0
 bus = &"sfx"
 
+[node name="Chase" type="Timer" parent="."]
+
 [connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]
+[connection signal="timeout" from="Chase" to="." method="_on_chase_timeout"]

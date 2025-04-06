@@ -104,21 +104,6 @@ autoplay = "default"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="ProgressBar" type="ProgressBar" parent="UI"]
-offset_left = 8.0
-offset_top = 10.0
-offset_right = 195.0
-offset_bottom = 37.0
-
-[node name="Adjustment" type="Label" parent="UI"]
-offset_left = 211.0
-offset_top = 14.0
-offset_right = 338.0
-offset_bottom = 37.0
-theme = ExtResource("3_k0juu")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "EYES:"
-
 [node name="Down" type="Label" parent="UI"]
 offset_left = 448.0
 offset_top = 14.0
@@ -188,5 +173,20 @@ stream = ExtResource("9_w7kh3")
 volume_db = -0.2
 bus = &"sfx"
 
+[node name="QBBlocker" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 4
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="QBBlocker"]
+polygon = PackedVector2Array(0, 446, 1280, 446, 1280, 380, -86, 382, -82, 770, 1284, 800, 1278, 719, -2, 718)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(1213, 701)
+
+[node name="SquintTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]
+[connection signal="timeout" from="SquintTimer" to="." method="_on_squint_timer_timeout"]
