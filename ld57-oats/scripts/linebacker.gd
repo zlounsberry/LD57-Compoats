@@ -1,5 +1,7 @@
 extends Node2D
 
+signal timer_expired
+
 @export var tackler: bool = false
 @export var timer_increment: float = 6.0
 

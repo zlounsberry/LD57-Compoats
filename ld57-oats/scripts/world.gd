@@ -2,6 +2,7 @@ extends Node2D
 
 const PLAY: Object = preload("res://scenes/play.tscn")
 const TEXTBOX: Object = preload("res://scenes/textbox.tscn")
+const BALL: Object = preload("res://scenes/ball.tscn")
 const PLAY_Y_POSITION: float = 588.0
 
 @export var throw_strength: float = 1.0
@@ -15,9 +16,9 @@ const PLAY_Y_POSITION: float = 588.0
 
 
 func _ready():
-	var textbox = TEXTBOX.instantiate()
-	$UI.add_child(textbox)
-	await textbox.dialog_done
+	#var textbox = TEXTBOX.instantiate()
+	#$UI.add_child(textbox)
+	#await textbox.dialog_done
 	if Globals.current_level > Globals.MAX_ROUNDS:
 		print("YOU WIN")
 		return
@@ -127,6 +128,7 @@ func _update_play():
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
 	new_play.qb_threw_ball.connect(_on_play_qb_threw_ball)
+	new_play.linebacker_timer_expired.connect(_qb_scramble)
 	for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
 		linebacker_child.timer_increment = Globals.LEVEL_DICTIONARY[Globals.current_level]["defense_timer"]
 	is_throwing = false # reset play states
@@ -135,6 +137,12 @@ func _update_play():
 	throw_strength = 1.0
 	$UI/ProgressBar.value = throw_strength
 
+
+func _qb_scramble():
+	if not is_inside_tree():
+		return # this should avoid null group call for the next line
+	for qb_child in get_tree().get_nodes_in_group("qb"):
+		qb_child.is_scrambling = true
 
 func _on_miss_body_entered(_body: Node2D) -> void:
 	print("incomplete!")
@@ -172,6 +180,9 @@ func _on_play_qb_sacked() -> void:
 func _on_play_qb_threw_ball() -> void:
 	Engine.time_scale = 0.25 # Slow down for max dramas
 	for play_child in get_tree().get_nodes_in_group("play"):
-		play_child.get_node("Ball").get_thrown(throw_strength, Vector2.ZERO) # Zero as a placeholder for when I add directionality
+		var ball = BALL.instantiate()
+		play_child.add_child(ball)
+		ball.global_position = play_child.get_node("Qb").global_position
+		ball.get_thrown(throw_strength, Vector2.ZERO) # Zero as a placeholder for when I add directionality
 		play_child.get_node("Wideout").dive()
 		play_child.get_node("Wideout").reset_shader() # Show the player where the wideout is

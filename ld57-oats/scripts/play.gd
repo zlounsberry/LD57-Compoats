@@ -5,6 +5,7 @@ signal wideout_oob
 signal wideout_td
 signal qb_sacked
 signal qb_threw_ball
+signal linebacker_timer_expired
 
 @export var left_adjustment: int = 0.0
 @export var right_adjustment: int = 0.0
@@ -19,8 +20,13 @@ func start_play_animations():
 	$Wideout/AnimatedSprite2D.play("default")
 	$Qb/AnimationPlayer.play("idle")
 	for linebacker in get_tree().get_nodes_in_group("linebacker"):
+		linebacker.timer_expired.connect(_on_linebacker_timer_expired)
 		linebacker.get_node("AnimatedSprite2D").play("default")
 		linebacker.get_node("AnimationPlayer").play("idle_live")
+
+
+func _on_linebacker_timer_expired() -> void:
+	linebacker_timer_expired.emit()
 
 
 func _on_wideout_catch() -> void:
