@@ -8,7 +8,9 @@ signal oob # for out of bounds when they pass endzone
 
 
 @export var speed: float = 0.0 # Start at 0 and take off when the play starts
-@export var caught_ball: bool = false
+@export var caught_ball: bool = false # Boolean to approximate state machine
+@export var in_endzone: bool = false # Boolean to approximate state machine
+@export var direction = 1 # Y direction while in endzone
 
 
 @onready var shader_updating: bool = true
@@ -24,6 +26,15 @@ func dive():
 
 
 func _physics_process(delta: float) -> void:
+	if in_endzone:
+		print(global_position)
+		var random_y = randi_range(480, 1220)
+		if global_position.y <= 480:
+			direction = 1
+		if global_position.y >= 700:
+			direction = -1
+		position.y += (speed * delta * direction)
+		return
 	position.x += speed * delta
 
 
@@ -34,7 +45,6 @@ func reset_shader():
 
 
 func _on_catch_box_body_entered(_body: Node2D) -> void:
-	print("Catch!")
 	caught_ball = true
 	speed = 0.0
 	var endzone: Array = $TD.get_overlapping_areas()
@@ -62,3 +72,9 @@ func _on_shader_increment_timeout() -> void:
 	if blur_strength <= 0.40:
 		opacity_strength += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
 	shader_material.set_shader_parameter("opacity_reduction", opacity_strength)
+
+
+func _on_endzone_timeout() -> void:
+	var endzone: Array = $TD.get_overlapping_areas()
+	if not endzone.is_empty():
+		in_endzone = true

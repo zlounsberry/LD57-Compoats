@@ -103,6 +103,7 @@ sprite_frames = SubResource("SpriteFrames_i7141")
 autoplay = "default"
 
 [node name="UI" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ProgressBar" type="ProgressBar" parent="UI"]
 offset_left = 8.0
@@ -194,6 +195,9 @@ collision_mask = 4
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="QBBlocker"]
 polygon = PackedVector2Array(0, 446, 1280, 446, 1280, 380, -86, 382, -82, 770, 1284, 800, 1278, 719, -2, 718)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(1213, 701)
 
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]

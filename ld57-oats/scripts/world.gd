@@ -124,11 +124,10 @@ func _update_play():
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
 	$UI/Down.text = str("DOWN: ", current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
-	new_play.wideout_oob.connect(_on_play_wideout_oob)
+	#new_play.wideout_oob.connect(_on_play_wideout_oob)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
 	new_play.qb_threw_ball.connect(_on_play_qb_threw_ball)
-	new_play.linebacker_timer_expired.connect(_qb_scramble)
 	for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
 		linebacker_child.timer_increment = Globals.LEVEL_DICTIONARY[Globals.current_level]["defense_timer"]
 	is_throwing = false # reset play states
@@ -137,12 +136,6 @@ func _update_play():
 	throw_strength = 1.0
 	$UI/ProgressBar.value = throw_strength
 
-
-func _qb_scramble():
-	if not is_inside_tree():
-		return # this should avoid null group call for the next line
-	for qb_child in get_tree().get_nodes_in_group("qb"):
-		qb_child.is_scrambling = true
 
 func _on_miss_body_entered(_body: Node2D) -> void:
 	print("incomplete!")
@@ -156,9 +149,9 @@ func _on_play_wideout_td() -> void:
 	_success_state(true, 0.0) # win condition for the round
 
 
-func _on_play_wideout_oob() -> void:
-	print("oob!")
-	_fail_state()
+#func _on_play_wideout_oob() -> void:
+	#print("oob!")
+	#_fail_state()
 
 
 func _on_play_ball_caught() -> void:

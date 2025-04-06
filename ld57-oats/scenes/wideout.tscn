@@ -166,6 +166,11 @@ shape = SubResource("CapsuleShape2D_kxohe")
 [node name="ShaderIncrement" type="Timer" parent="."]
 wait_time = 0.1
 
+[node name="Endzone" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
 [connection signal="body_entered" from="CatchBox" to="." method="_on_catch_box_body_entered"]
 [connection signal="area_entered" from="OOB" to="." method="_on_oob_area_entered"]
 [connection signal="timeout" from="ShaderIncrement" to="." method="_on_shader_increment_timeout"]
+[connection signal="timeout" from="Endzone" to="." method="_on_endzone_timeout"]

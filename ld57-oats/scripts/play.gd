@@ -26,7 +26,8 @@ func start_play_animations():
 
 
 func _on_linebacker_timer_expired() -> void:
-	linebacker_timer_expired.emit()
+	print ('scram')
+	$Qb.is_scrambling = true
 
 
 func _on_wideout_catch() -> void:

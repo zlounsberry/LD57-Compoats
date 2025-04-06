@@ -5,6 +5,9 @@ signal timer_expired
 @export var tackler: bool = false
 @export var timer_increment: float = 6.0
 
+@onready var is_chasing: bool = false
+@onready var chase_tween_time: float = 5.0
+
 
 func _ready() -> void:
 	$Timeout.wait_time = timer_increment
@@ -14,10 +17,13 @@ func _ready() -> void:
 		$Area2D.add_to_group("tackler")
 
 
-func run_anim(move_towards: Vector2) -> void:
+
+func run_anim() -> void:
 	$AnimatedSprite2D.play("run")
-	var tween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(self, "position", move_towards, 5.0)
+	is_chasing = true
+	$Chase.start()
+	#var tween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
+	#tween.tween_property(self, "position", move_towards, 5.0)
 
 
 func _defeated():
@@ -25,11 +31,21 @@ func _defeated():
 
 
 func _on_timeout_timeout() -> void:
+	timer_expired.emit()
 	if self.is_in_group("enemy"):
-		var qb_location: Vector2 = get_parent().get_node("Qb").position
-		run_anim(qb_location)
+		run_anim()
 		$AnimationPlayer.stop()
 		if $Area2D.is_in_group("tackler"):
 			$Knockdown.play()
 	else:
 		_defeated()
+
+
+func _on_chase_timeout() -> void:
+	var qb_location: Vector2 = get_parent().get_node("Qb").position
+	if chase_tween_time >= 1:
+		chase_tween_time -= 0.5
+	if is_chasing:
+		var tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+		tween.tween_property(self, "position", qb_location, chase_tween_time)
+		
