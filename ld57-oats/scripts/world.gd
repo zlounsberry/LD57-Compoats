@@ -1,6 +1,7 @@
 extends Node2D
 
-const PLAY = preload("res://scenes/play.tscn")
+const PLAY: Object = preload("res://scenes/play.tscn")
+const TEXTBOX: Object = preload("res://scenes/textbox.tscn")
 const PLAY_Y_POSITION: float = 588.0
 
 @export var throw_strength: float = 1.0
@@ -14,14 +15,20 @@ const PLAY_Y_POSITION: float = 588.0
 
 
 func _ready():
+	var textbox = TEXTBOX.instantiate()
+	$UI.add_child(textbox)
+	await textbox.dialog_done
 	if Globals.current_level > Globals.MAX_ROUNDS:
 		print("YOU WIN")
 		return
 	eye_adjustment = randf_range(-2.0, 2.0)
+	print('got here')
 	_update_play()
-	$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
+	#$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
 	$UI/Down.text = str("DOWN: ", current_play_count)
 	$UI/AnimationPlayer.play("fade_in")
+	await $UI/AnimationPlayer.animation_finished
+	print('got here')
 
 
 func _physics_process(delta: float) -> void:
@@ -102,7 +109,6 @@ func _success_state(td: bool, new_position: float):
 func _update_play():
 	if not is_inside_tree():
 		return # this should avoid null group call for the next line
-	
 	if current_play_count > 4:
 		print("rond over")
 		return
