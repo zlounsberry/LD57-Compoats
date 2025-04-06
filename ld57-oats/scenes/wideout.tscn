@@ -58,6 +58,33 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_kxohe"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 2)]
+}
+
 [sub_resource type="Animation" id="Animation_4eqom"]
 resource_name = "dive"
 length = 0.5
@@ -86,33 +113,6 @@ tracks/1/keys = {
 "values": [Vector2(2, 2), Vector2(1.8, 2.2)]
 }
 
-[sub_resource type="Animation" id="Animation_kxohe"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(2, 2)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_44o4d"]
 _data = {
 &"RESET": SubResource("Animation_kxohe"),
@@ -126,7 +126,7 @@ radius = 27.0
 radius = 14.0
 height = 62.0
 
-[node name="Wideout" type="Node2D"]
+[node name="Wideout" type="Node2D" groups=["wideout"]]
 script = ExtResource("1_kxohe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

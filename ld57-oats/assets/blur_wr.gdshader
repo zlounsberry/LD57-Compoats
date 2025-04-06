@@ -8,7 +8,7 @@ uniform int kernel_size : hint_range(1, 10) = 3; // Kernel size for blur, defaul
 vec4 apply_blur(sampler2D tex, vec2 uv, float strength, int kernel) {
     vec4 color = vec4(0.0);
     float total_weight = 0.0;
-    
+
     // Loop through neighboring pixels
     for (int x = -kernel; x <= kernel; x++) {
         for (int y = -kernel; y <= kernel; y++) {
