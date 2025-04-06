@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="LD57 Oats"
-run/main_scene="uid://dbuvo4cq3obyk"
+config/name="LD57 Oats Hail Mary"
+run/main_scene="uid://b4flp0t65haba"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
