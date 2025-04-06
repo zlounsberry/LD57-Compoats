@@ -76,10 +76,11 @@ func _on_catch_box_body_entered(_body: Node2D) -> void:
 	caught_ball = true
 	speed = 0.0
 	var endzone: Array = $TD.get_overlapping_areas()
+	catch.emit()
 	if not endzone.is_empty():
 		print("touchdown!")
 		td.emit()
-	catch.emit()
+		return
 
 
 func _on_shader_increment_timeout() -> void:
