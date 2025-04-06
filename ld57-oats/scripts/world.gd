@@ -9,6 +9,7 @@ const PLAY_Y_POSITION: float = 588.0
 
 @onready var is_throwing: bool = false
 @onready var has_thrown: bool = false
+@onready var touchdown: bool = false
 @onready var play_started: bool = false
 @onready var is_squinting: bool = false # Squinting will reveal receivers and hide linebackers
 @onready var can_toggle_squint: bool = true # For the squint timer node to modulate
@@ -16,16 +17,16 @@ const PLAY_Y_POSITION: float = 588.0
 
 
 func _ready():
-	#var textbox = TEXTBOX.instantiate()
-	#$UI.add_child(textbox)
-	#await textbox.dialog_done
+	var textbox = TEXTBOX.instantiate()
+	$UI.add_child(textbox)
+	await textbox.dialog_done
 	Globals.current_play_count = 1
 	if Globals.current_level > Globals.MAX_ROUNDS:
 		print("YOU WIN")
 		return
 	_update_play()
 	#$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
-	$UI/Down.text = str("DOWN: ", Globals.current_play_count)
+	$UI/Down.text = str("PLAY NUMBER: ", Globals.current_play_count)
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
 
@@ -107,6 +108,11 @@ func _fail_state():
 	Engine.time_scale = 1.0
 	$UI/AnimationPlayer.play("fade_out")
 	await $UI/AnimationPlayer.animation_finished
+	if Globals.current_play_count > 4:
+		var textbox = TEXTBOX.instantiate()
+		$UI.add_child(textbox)
+		textbox.game_over = true
+		await textbox.dialog_done
 	_update_play()
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
@@ -117,13 +123,17 @@ func _success_state(td: bool, new_position: float):
 	Engine.time_scale = 1.0
 	await get_tree().create_timer(1.0).timeout
 	$UI/AnimationPlayer.play("fade_out")
-	await $UI/AnimationPlayer.animation_finished
 	if td:
 		print("next level time")
+		# $Sounds/Whistle.play()
+		$Sounds/TD.play()
+		await $Sounds/TD.finished
 		Globals.current_level += 1
 		Globals.current_x_position = Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"]
 		get_tree().reload_current_scene()
 	else:
+		if touchdown:
+			return
 		print("next play time")
 		Globals.current_play_count += 1
 		Globals.current_x_position = new_position
@@ -132,14 +142,24 @@ func _success_state(td: bool, new_position: float):
 		await $UI/AnimationPlayer.animation_finished
 
 
+func _game_over():
+	var textbox = TEXTBOX.instantiate()
+	textbox.game_over = true
+	$UI.add_child(textbox)
+	await textbox.dialog_done
+	Globals.current_level = 0
+	Globals.current_play_count = 1
+	get_tree().reload_current_scene()
+	
+
 func _update_play():
 	if not is_inside_tree():
 		return # this should avoid null group call for the next line
 	if Globals.current_play_count > 4:
-		print("rond over")
+		_game_over()
 		return
 	GlobalSound.update_pacing()
-	$Sounds/Whistle.play()
+	# $Sounds/Whistle.play()
 	for play_child in get_tree().get_nodes_in_group("play"):
 		play_child.queue_free()
 	var new_play = PLAY.instantiate()
@@ -149,7 +169,7 @@ func _update_play():
 		Globals.current_x_position = new_play.position.x
 	else:
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
-	$UI/Down.text = str("DOWN: ", Globals.current_play_count)
+	$UI/Down.text = str("PLAY NUMBER: ", Globals.current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
@@ -173,6 +193,7 @@ func _on_miss_body_entered(_body: Node2D) -> void:
 
 
 func _on_play_wideout_td() -> void:
+	touchdown = true
 	_success_state(true, 0.0) # win condition for the round
 
 
