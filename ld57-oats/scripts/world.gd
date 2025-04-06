@@ -13,19 +13,19 @@ const PLAY_Y_POSITION: float = 588.0
 @onready var is_squinting: bool = false # Squinting will reveal receivers and hide linebackers
 @onready var can_toggle_squint: bool = true # For the squint timer node to modulate
 @onready var is_narrating: bool = true
-@onready var current_play_count: int = 1
 
 
 func _ready():
 	#var textbox = TEXTBOX.instantiate()
 	#$UI.add_child(textbox)
 	#await textbox.dialog_done
+	Globals.current_play_count = 1
 	if Globals.current_level > Globals.MAX_ROUNDS:
 		print("YOU WIN")
 		return
 	_update_play()
 	#$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
-	$UI/Down.text = str("DOWN: ", current_play_count)
+	$UI/Down.text = str("DOWN: ", Globals.current_play_count)
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
 
@@ -44,10 +44,9 @@ func _input(event: InputEvent) -> void:
 	if has_thrown:
 		return # early return if the ball is released - any UI stuff should go above here
 	
-	if event.is_action_pressed("ui_up"):
+	if event.is_action_released("hike"):
 		if play_started:
 			return
-		play_started = true
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.hike_ball()
 			play_child.get_node("Wideout").speed = randf_range(
@@ -58,7 +57,12 @@ func _input(event: InputEvent) -> void:
 		$Sounds/Hike.play()
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
 			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
+		await get_tree().create_timer(0.5) # to avoid bypassing the `if not play_started` below, add a lil timer
+		play_started = true
 
+	if event.is_action_pressed("hut"):
+		if not play_started:
+			$Sounds/Hut.play()
 
 	if not play_started:
 		return # early return if the play hasn't yet started
@@ -99,7 +103,7 @@ func _input(event: InputEvent) -> void:
 
 func _fail_state():
 	$Camera2D.start_shake()
-	current_play_count += 1
+	Globals.current_play_count += 1
 	Engine.time_scale = 1.0
 	$UI/AnimationPlayer.play("fade_out")
 	await $UI/AnimationPlayer.animation_finished
@@ -111,14 +115,17 @@ func _fail_state():
 
 func _success_state(td: bool, new_position: float):
 	Engine.time_scale = 1.0
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(1.0).timeout
 	$UI/AnimationPlayer.play("fade_out")
 	await $UI/AnimationPlayer.animation_finished
 	if td:
+		print("next level time")
 		Globals.current_level += 1
+		Globals.current_x_position = Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"]
 		get_tree().reload_current_scene()
 	else:
-		current_play_count += 1
+		print("next play time")
+		Globals.current_play_count += 1
 		Globals.current_x_position = new_position
 		_update_play()
 		$UI/AnimationPlayer.play("fade_in")
@@ -128,19 +135,21 @@ func _success_state(td: bool, new_position: float):
 func _update_play():
 	if not is_inside_tree():
 		return # this should avoid null group call for the next line
-	if current_play_count > 4:
+	if Globals.current_play_count > 4:
 		print("rond over")
 		return
+	GlobalSound.update_pacing()
+	$Sounds/Whistle.play()
 	for play_child in get_tree().get_nodes_in_group("play"):
 		play_child.queue_free()
 	var new_play = PLAY.instantiate()
 	add_child(new_play)
-	if current_play_count == 1:
+	if Globals.current_play_count == 1:
 		new_play.position = Vector2(Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"], PLAY_Y_POSITION)
 		Globals.current_x_position = new_play.position.x
 	else:
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
-	$UI/Down.text = str("DOWN: ", current_play_count)
+	$UI/Down.text = str("DOWN: ", Globals.current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
@@ -180,6 +189,9 @@ func _on_play_ball_caught() -> void:
 
 
 func _on_play_qb_sacked() -> void:
+	$Sounds/Sack.play()
+	for qb in get_tree().get_nodes_in_group("qb"):
+		Globals.current_x_position = qb.global_position.x
 	_fail_state()
 
 

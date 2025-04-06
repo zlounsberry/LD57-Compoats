@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c4gw206tf2ssm" path="res://scripts/linebacker.gd" id="1_p5g3v"]
 [ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_5ifuj"]
-[ext_resource type="AudioStream" uid="uid://ccpr2lwafqllj" path="res://assets/sounds/knockdown.wav" id="3_5ifuj"]
+[ext_resource type="AudioStream" uid="uid://c7fc645l4u6hp" path="res://assets/sounds/oats_custom/takedown_1.ogg" id="3_5ifuj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p5g3v"]
 atlas = ExtResource("2_5ifuj")
@@ -169,7 +169,7 @@ one_shot = true
 
 [node name="Knockdown" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_5ifuj")
-volume_db = -10.0
+pitch_scale = 0.88
 bus = &"sfx"
 
 [node name="Chase" type="Timer" parent="."]

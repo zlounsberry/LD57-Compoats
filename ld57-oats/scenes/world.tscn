@@ -1,13 +1,18 @@
-[gd_scene load_steps=19 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=25 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
 [ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/resources/main_theme.tres" id="3_k0juu"]
 [ext_resource type="Script" uid="uid://bhkncvf0aijul" path="res://scripts/camera.gd" id="4_4mrxx"]
-[ext_resource type="AudioStream" uid="uid://cxlhkflmpc464" path="res://assets/sounds/catch.wav" id="5_qfnet"]
-[ext_resource type="AudioStream" uid="uid://bm2xg1aghkx83" path="res://assets/sounds/hike.wav" id="6_i7141"]
-[ext_resource type="AudioStream" uid="uid://4cdbjrd1dd33" path="res://assets/sounds/throw.wav" id="8_7r4gi"]
-[ext_resource type="AudioStream" uid="uid://dykcy2kgucd0w" path="res://assets/sounds/miss.wav" id="9_w7kh3"]
+[ext_resource type="AudioStream" uid="uid://bxr6aoo25afd7" path="res://assets/sounds/oats_custom/catch.ogg" id="5_jhx03"]
+[ext_resource type="AudioStream" uid="uid://57vdudkc1651" path="res://assets/sounds/oats_custom/hike.ogg" id="6_o8fc1"]
+[ext_resource type="AudioStream" uid="uid://co8amvw1xfs7x" path="res://assets/sounds/oats_custom/hut1.ogg" id="7_xo05s"]
+[ext_resource type="AudioStream" uid="uid://qepxkp11jpfl" path="res://assets/sounds/oats_custom/hut2.ogg" id="8_dss4m"]
+[ext_resource type="AudioStream" uid="uid://dmukxegxljx0q" path="res://assets/sounds/oats_custom/takedown_2.ogg" id="9_7r4gi"]
+[ext_resource type="AudioStream" uid="uid://if2m6brdn6ko" path="res://assets/sounds/oats_custom/hut3.ogg" id="9_7t5mc"]
+[ext_resource type="AudioStream" uid="uid://dykcy2kgucd0w" path="res://assets/sounds/jsfx/miss.wav" id="9_w7kh3"]
+[ext_resource type="AudioStream" uid="uid://c50vbu0g2qn7b" path="res://assets/sounds/oats_custom/throw_grunt.ogg" id="10_lakw3"]
+[ext_resource type="AudioStream" uid="uid://easxqlx3e14b" path="res://assets/sounds/oats_custom/whistle.ogg" id="10_w7kh3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_71j4m"]
 atlas = ExtResource("2_k0juu")
@@ -92,6 +97,14 @@ size = Vector2(219.75, 2716.88)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7r4gi"]
 size = Vector2(125, 272.5)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pm21f"]
+streams_count = 3
+stream_0/stream = ExtResource("7_xo05s")
+stream_1/stream = ExtResource("8_dss4m")
+stream_1/weight = 3.0
+stream_2/stream = ExtResource("9_7t5mc")
+stream_2/weight = 10.0
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_nnsk1")
 
@@ -152,18 +165,21 @@ shape = SubResource("RectangleShape2D_7r4gi")
 [node name="Sounds" type="Node2D" parent="."]
 
 [node name="Catch" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("5_qfnet")
+stream = ExtResource("5_jhx03")
 volume_db = -15.0
 bus = &"sfx"
 
 [node name="Hike" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("6_i7141")
-volume_db = -10.0
-pitch_scale = 0.8
+stream = ExtResource("6_o8fc1")
+volume_db = 5.0
+bus = &"sfx"
+
+[node name="Hut" type="AudioStreamPlayer" parent="Sounds"]
+stream = SubResource("AudioStreamRandomizer_pm21f")
 bus = &"sfx"
 
 [node name="Throw" type="AudioStreamPlayer" parent="Sounds"]
-stream = ExtResource("8_7r4gi")
+stream = ExtResource("10_lakw3")
 volume_db = -12.0
 pitch_scale = 0.81
 bus = &"sfx"
@@ -172,6 +188,16 @@ bus = &"sfx"
 stream = ExtResource("9_w7kh3")
 volume_db = -0.2
 bus = &"sfx"
+
+[node name="Sack" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("9_7r4gi")
+volume_db = -0.2
+pitch_scale = 1.08
+bus = &"sfx"
+
+[node name="Whistle" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("10_w7kh3")
+pitch_scale = 1.09
 
 [node name="QBBlocker" type="StaticBody2D" parent="."]
 collision_layer = 64
