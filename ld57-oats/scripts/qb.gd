@@ -17,11 +17,11 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	handle_movement(delta)
+	handle_movement()
 	move_and_slide()
 
 
-func handle_movement(delta: float) -> void:
+func handle_movement() -> void:
 	var direction = Vector2.ZERO
 	if not is_scrambling:
 		return

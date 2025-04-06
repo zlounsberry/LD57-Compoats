@@ -12,7 +12,7 @@ signal td
 
 @onready var can_toggle_blurry: bool = true
 @onready var shader_updating: bool = true
-@onready var speed_range: Vector2 = Vector2(40.0, 80.0)
+@onready var speed_range: Vector2 = Vector2(60.0, 95.0)
 @onready var blur_strength: float = 1.0
 @onready var opacity_reduction: float = 0.0
 @onready var shader_material: ShaderMaterial = $AnimatedSprite2D.material
@@ -26,7 +26,6 @@ func dive():
 
 func _physics_process(delta: float) -> void:
 	if in_endzone:
-		var random_y = randi_range(480, 1220)
 		if global_position.y <= 480:
 			direction = 1
 		if global_position.y >= 700:
@@ -36,41 +35,17 @@ func _physics_process(delta: float) -> void:
 	position.x += speed * delta
 
 
-func reset_shader():
-	pass
-	#shader_updating = false
-	#shader_material.set_shader_parameter("blur_strength", 1.0)
-	#shader_material.set_shader_parameter("opacity_reduction", 0.0)
-
-
 func toggle_blurry(is_blurry: bool) -> void:
 	if not can_toggle_blurry:
 		return
-	#if is_blurry:
-		#if blur_strength > 0:
-			#blur_strength -= (0.05 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("blur_strength", blur_strength) # Blur was pulling in nearby frames, drove me nuts so no blur
-		#if blur_strength <= 0.40:
-			#opacity_reduction += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-		#while opacity_reduction >= 0:
-			#opacity_reduction += (0.025 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-	#else:
-		#if blur_strength < 1.0:
-			#blur_strength += (0.05 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("blur_strength", blur_strength) # Blur was pulling in nearby frames, drove me nuts so no blur
-		#if blur_strength >= 0.60:
-			#opacity_reduction += (0.025 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-		#while opacity_reduction <= 1:
-			#opacity_reduction += (0.025 * Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])
-		#shader_material.set_shader_parameter("opacity_reduction", opacity_reduction)
-	var tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+	if $Visible.is_playing():
+		$Visible.stop()
 	if is_blurry:
-		tween.tween_property($AnimatedSprite2D, "modulate:a", 0.0, 1.0)
+		prints(self, "toggle_invisible")
+		$Visible.play("toggle_invisible")
 	else:
-		tween.tween_property($AnimatedSprite2D, "modulate:a", 1.0, 3.0)
+		prints(self, "toggle_visible")
+		$Visible.play("toggle_visible")
 
 
 func _on_catch_box_body_entered(_body: Node2D) -> void:
@@ -95,7 +70,6 @@ func _on_shader_increment_timeout() -> void:
 	while $AnimatedSprite2D.modulate.a > 0:
 		$AnimatedSprite2D.modulate.a -= 0.005
 		await get_tree().create_timer(0.01).timeout
-	
 
 
 func _on_endzone_timeout() -> void:

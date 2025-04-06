@@ -33,11 +33,14 @@ func toggle_blurry(is_blurry: bool) -> void:
 		return
 	if not is_in_group("enemy"):
 		return
-	var tween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
+	if $Visible.is_playing():
+		$Visible.stop()
 	if is_blurry:
-		tween.tween_property($AnimatedSprite2D, "modulate:a", 0.0, 1.0)
+		prints(self, "toggle_invisible")
+		$Visible.play("toggle_invisible")
 	else:
-		tween.tween_property($AnimatedSprite2D, "modulate:a", 1.0, 3.0)
+		prints(self, "toggle_visible")
+		$Visible.play("toggle_visible")
 
 
 func _on_timeout_timeout() -> void:

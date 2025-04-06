@@ -33,15 +33,16 @@ const GAME_OVER_DICT: Dictionary = {
 	}
 }
 
+@export var game_over: bool = false
+@export var won_game: bool = false
+
 @onready var can_advance: bool = false
 @onready var current_text_value: int = 0
-@onready var is_familiar_tutorial: bool = true
-@onready var game_over: bool = false
-@onready var won_game: bool = false
 
 
 func _ready() -> void:
 	get_tree().paused = true
+	prints("textbox, game over:", game_over, "won_game:", won_game, "current level:", Globals.current_level)
 	var tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS) # Wow I just learned you need to update the pause mode of tweens you add?? Wild
 	tween.tween_property(self, "modulate:a", 1.0, 0.5)
@@ -52,6 +53,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("throw"):
+		print("clicked in textbox")
 		$Hold.start()
 		if can_advance:
 			$Sprite2D.hide()

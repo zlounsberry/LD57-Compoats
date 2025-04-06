@@ -58,7 +58,7 @@ func _input(event: InputEvent) -> void:
 		$Sounds/Hike.play()
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
 			linebacker.get_node("Timeout").start() # Stop the play from breaking down once the ball is thrown
-		await get_tree().create_timer(0.5) # to avoid bypassing the `if not play_started` below, add a lil timer
+		await get_tree().create_timer(0.5).timeout # to avoid bypassing the `if not play_started` below, add a lil timer
 		play_started = true
 
 	if event.is_action_pressed("hut"):
@@ -72,19 +72,20 @@ func _input(event: InputEvent) -> void:
 		if not can_toggle_squint:
 			print("timer not up yet")
 			return
-		print("squinting")
 		can_toggle_squint = false
 		$SquintTimer.start()
 		is_squinting = !is_squinting # toggle true/false
 		for linebacker in get_tree().get_nodes_in_group("linebacker"):
-			linebacker.toggle_blurry(is_squinting) # Stop the play from breaking down once the ball is thrown
+			linebacker.toggle_blurry(is_squinting)
+			print("setting linebackers to ", is_squinting)
 		for receiver in get_tree().get_nodes_in_group("wideout"):
-			receiver.toggle_blurry(!is_squinting) # Stop the play from breaking down once the ball is thrown
+			receiver.toggle_blurry(!is_squinting)
+			print("setting wideout to ", !is_squinting)
 
 	if event.is_action_pressed("throw"):
 		if is_throwing:
 			return # Avoid stutter-stepping spacebar
-		Engine.time_scale = 0.75 # Slow down for better control and/or drama maybe who knows
+		Engine.time_scale = 0.5 # Slow down for better control and/or drama maybe who knows
 		is_throwing = true # Set to the throwing state
 		for qb in get_tree().get_nodes_in_group("qb"):
 			qb.is_throwing = true
@@ -97,11 +98,10 @@ func _input(event: InputEvent) -> void:
 			play_child.get_node("Qb").throw()
 		for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
 			linebacker_child.can_toggle_blurry = false
-			linebacker_child.modulate.a = 1.0
+			linebacker_child.set_deferred("modulate:a", 1.0)
 		for wideout_child in get_tree().get_nodes_in_group("wideout"):
 			wideout_child.can_toggle_blurry = false
-			wideout_child.reset_shader()
-			wideout_child.modulate.a = 1.0
+			wideout_child.set_deferred("modulate:a", 1.0)
 
 
 func _fail_state():
@@ -111,12 +111,14 @@ func _fail_state():
 	$UI/AnimationPlayer.play("fade_out")
 	await $UI/AnimationPlayer.animation_finished
 	if Globals.current_play_count > 4:
-		var textbox = TEXTBOX.instantiate()
-		$UI.add_child(textbox)
-		textbox.game_over = true
-		Globals.current_play_count = 1
-		Globals.current_level = 0
-		await textbox.dialog_done
+		print("adding text from fail state")
+		_game_over(false)
+		#var textbox = TEXTBOX.instantiate()
+		#$UI.add_child(textbox)
+		#textbox.game_over = true
+		#Globals.current_play_count = 1
+		#Globals.current_level = 0
+		#await textbox.dialog_done
 	_update_play()
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
@@ -126,12 +128,24 @@ func _success_state(td: bool, new_position: float):
 	Engine.time_scale = 1.0
 	await get_tree().create_timer(1.0).timeout
 	$UI/AnimationPlayer.play("fade_out")
+	print("success")
 	if td:
 		# $Sounds/Whistle.play()
 		$Sounds/TD.play()
 		await $Sounds/TD.finished
 		Globals.current_level += 1
-		if Globals.current_level >= Globals.MAX_ROUNDS:
+		if Globals.current_level > Globals.MAX_ROUNDS:
+			print("past final level")
+			print("adding text from success win state")
+			_game_over(true)
+			#var textbox = TEXTBOX.instantiate()
+			#textbox.game_over = true
+			#textbox.won_game = true
+			#$UI.add_child(textbox)
+			#await textbox.dialog_done
+			#Globals.current_level = 0
+			#Globals.current_play_count = 1
+			#get_tree().reload_current_scene()
 			return
 		Globals.current_x_position = Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"]
 		get_tree().reload_current_scene()
@@ -145,23 +159,23 @@ func _success_state(td: bool, new_position: float):
 		await $UI/AnimationPlayer.animation_finished
 
 
-func _game_over():
+func _game_over(win_state: bool):
+	print("GAME OVER")
 	var textbox = TEXTBOX.instantiate()
 	textbox.game_over = true
+	textbox.won_game = win_state
 	$UI.add_child(textbox)
 	await textbox.dialog_done
 	Globals.current_level = 0
 	Globals.current_play_count = 1
 	get_tree().reload_current_scene()
-	
+
 
 func _update_play():
 	if not is_inside_tree():
 		return # this should avoid null group call for the next line
-	if Globals.current_play_count > 4:
-		_game_over()
-		return
-	$Scoreboard.frame = Globals.current_play_count - 1 # Need a -1 here coz it starts at 0
+	if Globals.current_play_count <= 4:
+		$Scoreboard.frame = Globals.current_play_count - 1 # Need a -1 here coz it starts at 0
 	Engine.time_scale = 1.0
 	GlobalSound.update_pacing()
 	# $Sounds/Whistle.play()
@@ -221,7 +235,7 @@ func _on_play_qb_sacked() -> void:
 
 
 func _on_play_qb_threw_ball() -> void:
-	Engine.time_scale = 0.25 # Slow down for max dramas
+	Engine.time_scale = 0.5 # Slow down for max dramas
 	for play_child in get_tree().get_nodes_in_group("play"):
 		var ball = BALL.instantiate()
 		play_child.add_child(ball)

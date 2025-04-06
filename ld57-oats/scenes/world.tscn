@@ -224,7 +224,7 @@ polygon = PackedVector2Array(0, 446, 1280, 446, 1280, 380, -86, 382, -82, 770, 1
 position = Vector2(1213, 701)
 
 [node name="SquintTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 1.1
 one_shot = true
 
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]

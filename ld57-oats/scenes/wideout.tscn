@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dji48svlyhooo"]
+[gd_scene load_steps=17 format=3 uid="uid://dji48svlyhooo"]
 
 [ext_resource type="Script" uid="uid://1fseycua7h6m" path="res://scripts/wideout.gd" id="1_kxohe"]
 [ext_resource type="Texture2D" uid="uid://bp311wntvrpf4" path="res://assets/sprite_sheet.png" id="2_7jkhm"]
@@ -105,6 +105,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(2, 2), Vector2(1.8, 2.2)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_44o4d"]
 _data = {
@@ -118,6 +130,42 @@ radius = 27.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kxohe"]
 radius = 14.0
 height = 62.0
+
+[sub_resource type="Animation" id="Animation_7jkhm"]
+resource_name = "toggle_visible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yoaqb"]
+resource_name = "toggle_invisible"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_shh2q"]
+_data = {
+&"toggle_invisible": SubResource("Animation_yoaqb"),
+&"toggle_visible": SubResource("Animation_7jkhm")
+}
 
 [node name="Wideout" type="Node2D" groups=["wideout"]]
 script = ExtResource("1_kxohe")
@@ -154,6 +202,11 @@ wait_time = 0.1
 
 [node name="Endzone" type="Timer" parent="."]
 autostart = true
+
+[node name="Visible" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_shh2q")
+}
 
 [connection signal="body_entered" from="CatchBox" to="." method="_on_catch_box_body_entered"]
 [connection signal="timeout" from="ShaderIncrement" to="." method="_on_shader_increment_timeout"]
