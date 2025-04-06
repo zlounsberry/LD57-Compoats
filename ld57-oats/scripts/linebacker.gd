@@ -3,16 +3,15 @@ extends Node2D
 signal timer_expired
 
 @export var tackler: bool = false
-@export var timer_increment: float = 6.0
 
 @onready var is_chasing: bool = false
+@onready var can_toggle_blurry: bool = true
 @onready var chase_tween_time: float = 5.0
 @onready var opacity_reduction = 0.0
 @onready var blur_strength = 1.0
 
 
 func _ready() -> void:
-	$Timeout.wait_time = timer_increment
 	$AnimationPlayer.play("RESET")
 	$AnimationPlayer.play("idle_pre_play")
 	if tackler:
@@ -32,6 +31,8 @@ func _defeated():
 
 
 func toggle_blurry(is_blurry: bool) -> void:
+	if not can_toggle_blurry:
+		return
 	#if is_blurry:
 		#if blur_strength > 0:
 			#blur_strength -= (0.05 / Globals.LEVEL_DICTIONARY[Globals.current_level]["correction_factor"])

@@ -1,7 +1,6 @@
 extends Node2D
 
 signal ball_caught
-signal wideout_oob
 signal wideout_td
 signal qb_sacked
 signal qb_threw_ball
@@ -31,10 +30,6 @@ func _on_linebacker_timer_expired() -> void:
 
 func _on_wideout_catch() -> void:
 	ball_caught.emit()
-
-
-func _on_wideout_oob() -> void:
-	wideout_oob.emit()
 
 
 func _on_wideout_td() -> void:

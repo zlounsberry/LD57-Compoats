@@ -89,8 +89,11 @@ func _input(event: InputEvent) -> void:
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.get_node("Qb").throw()
 		for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
+			linebacker_child.can_toggle_blurry = false
 			linebacker_child.modulate.a = 1.0
 		for wideout_child in get_tree().get_nodes_in_group("wideout"):
+			wideout_child.can_toggle_blurry = false
+			wideout_child.reset_shader()
 			wideout_child.modulate.a = 1.0
 
 
@@ -139,12 +142,11 @@ func _update_play():
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
 	$UI/Down.text = str("DOWN: ", current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
-	#new_play.wideout_oob.connect(_on_play_wideout_oob)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)
 	new_play.qb_threw_ball.connect(_on_play_qb_threw_ball)
 	for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
-		linebacker_child.timer_increment = Globals.LEVEL_DICTIONARY[Globals.current_level]["defense_timer"]
+		linebacker_child.get_node("Timeout").wait_time = Globals.LEVEL_DICTIONARY[Globals.current_level]["defense_timer"]
 	is_throwing = false # reset play states
 	has_thrown = false # reset play states
 	play_started = false # reset play states

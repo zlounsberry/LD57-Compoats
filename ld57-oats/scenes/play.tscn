@@ -50,7 +50,6 @@ position = Vector2(64.5, -1)
 shape = SubResource("RectangleShape2D_j27tm")
 
 [connection signal="catch" from="Wideout" to="." method="_on_wideout_catch"]
-[connection signal="oob" from="Wideout" to="." method="_on_wideout_oob"]
 [connection signal="td" from="Wideout" to="." method="_on_wideout_td"]
 [connection signal="ball_thrown" from="Qb" to="." method="_on_qb_ball_thrown"]
 [connection signal="sacked" from="Qb" to="." method="_on_qb_sacked"]

@@ -4,15 +4,13 @@ extends Node2D
 
 signal catch
 signal td
-signal oob # for out of bounds when they pass endzone
-
 
 @export var speed: float = 0.0 # Start at 0 and take off when the play starts
 @export var caught_ball: bool = false # Boolean to approximate state machine
 @export var in_endzone: bool = false # Boolean to approximate state machine
 @export var direction = 1 # Y direction while in endzone
 
-
+@onready var can_toggle_blurry: bool = true
 @onready var shader_updating: bool = true
 @onready var speed_range: Vector2 = Vector2(40.0, 80.0)
 @onready var blur_strength: float = 1.0
@@ -44,6 +42,8 @@ func reset_shader():
 
 
 func toggle_blurry(is_blurry: bool) -> void:
+	if not can_toggle_blurry:
+		return
 	reset_shader()
 	#if is_blurry:
 		#if blur_strength > 0:
@@ -80,11 +80,6 @@ func _on_catch_box_body_entered(_body: Node2D) -> void:
 		print("touchdown!")
 		td.emit()
 	catch.emit()
-
-
-func _on_oob_area_entered(_area: Area2D) -> void:
-	print("failure, oob!")
-	oob.emit()
 
 
 func _on_shader_increment_timeout() -> void:
