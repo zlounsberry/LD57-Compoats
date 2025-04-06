@@ -60,7 +60,7 @@ func _input(event: InputEvent) -> void:
 			$UI/Instruct.text = "Hold down Left Mouse Button or Space to charge throw"
 			for child in $UI/Instructions.get_children():
 				child.hide()
-			$UI/Instructions/Hold.show()
+		$UI/Instructions/Hold.show()
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.hike_ball()
 			play_child.get_node("Wideout").speed = randf_range(
@@ -190,6 +190,8 @@ func _update_play():
 		return # this should avoid null group call for the next line
 	if Globals.current_play_count <= 4:
 		$Scoreboard.frame = Globals.current_play_count - 1 # Need a -1 here coz it starts at 0
+	is_squinting = false
+	$UI/SquintIndicator.frame = 0
 	$UI/Scramble.hide()
 	$UI/ScrambleIcons.hide()
 	$UI/SquintInstruction.hide()
