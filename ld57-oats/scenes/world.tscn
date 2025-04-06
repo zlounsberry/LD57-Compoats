@@ -103,22 +103,6 @@ sprite_frames = SubResource("SpriteFrames_i7141")
 autoplay = "default"
 
 [node name="UI" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="ProgressBar" type="ProgressBar" parent="UI"]
-offset_left = 8.0
-offset_top = 10.0
-offset_right = 195.0
-offset_bottom = 37.0
-
-[node name="Adjustment" type="Label" parent="UI"]
-offset_left = 211.0
-offset_top = 14.0
-offset_right = 338.0
-offset_bottom = 37.0
-theme = ExtResource("3_k0juu")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "EYES:"
 
 [node name="Down" type="Label" parent="UI"]
 offset_left = 448.0
@@ -199,5 +183,10 @@ polygon = PackedVector2Array(0, 446, 1280, 446, 1280, 380, -86, 382, -82, 770, 1
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(1213, 701)
 
+[node name="SquintTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="area_entered" from="Miss" to="." method="_on_miss_area_entered"]
 [connection signal="body_entered" from="Miss" to="." method="_on_miss_body_entered"]
+[connection signal="timeout" from="SquintTimer" to="." method="_on_squint_timer_timeout"]

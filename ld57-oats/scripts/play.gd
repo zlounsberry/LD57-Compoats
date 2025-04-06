@@ -26,7 +26,6 @@ func start_play_animations():
 
 
 func _on_linebacker_timer_expired() -> void:
-	print ('scram')
 	$Qb.is_scrambling = true
 
 

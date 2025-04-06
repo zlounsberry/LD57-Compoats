@@ -7,6 +7,7 @@ signal sacked
 signal ball_thrown
 
 @onready var has_thrown: bool = false
+@onready var is_throwing: bool = false
 @onready var is_scrambling: bool = false
 
 
@@ -21,9 +22,12 @@ func _physics_process(delta: float) -> void:
 
 
 func handle_movement(delta: float) -> void:
+	var direction = Vector2.ZERO
 	if not is_scrambling:
 		return
-	var direction = Vector2.ZERO
+	if is_throwing or has_thrown:
+		velocity = Vector2.ZERO
+		return
 	if Input.is_action_pressed("ui_up"):
 		direction.y -= 1
 	if Input.is_action_pressed("ui_down"):

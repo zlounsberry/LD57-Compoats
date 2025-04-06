@@ -29,9 +29,7 @@ func _ready() -> void:
 	var tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_CUBIC)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS) # Wow I just learned you need to update the pause mode of tweens you add?? Wild
 	tween.tween_property(self, "modulate:a", 1.0, 0.5)
-	print("tweening")
 	await tween.finished
-	print('displaying text7')
 	_display_text()
 	current_text_value += 1
 
