@@ -6,26 +6,30 @@ const DIALOG_DICT: Dictionary = {
 	0: {
 		"Max Dialog Value": 3,
 		0: "Welcome to the bigtime, kid. It's first and goal, and the Playoffs are on the line here. We've only got time for 4 plays, so make em count. All we need is one touchdown to win it.",
-		1: "They say you've got the best arm in the League... And easily the worst depth perception... That's fine, worst case gimme a deep ball to where you think your receiver is",
+		1: "They say you've got the best arm in the League... And easily the worst depth perception... That's fine, worst case you can gimme a deep ball to where you think your receiver is, right?",
 		2: "Remember that if you lose sight of the receiver, just squint real hard with the right mouse button. Sure you'll lose sight of their defenders, but you should be able to find your mark before they hit you, right?",
 		3: "Now go get us our playoff win. Ice water in your veins!",
 	},
 	1: {
-		"Max Dialog Value": 1,
-		0: "This is the first dialog on the second day",
-		1: "This is the second dialog on the second day",
+		"Max Dialog Value": 2,
+		0: "Hey kid, we need that golden arm of yours, and we'll take the eyesight that comes with it. It's the Divisional Championship game, and we need a touchdown to win it.",
+		1: "Watch the defensive line, they've gotten a bit better at breaking through and our boys are tired... They set us back around midfield, but I believe in you!",
+		2: "Now go get us our divisional win. Ice water in your veins!",
 	},
 	2: {
-		"Max Dialog Value": 1,
-		0: "This is the first dialog on the last day",
-		1: "This is the second dialog on the last day",
+		"Max Dialog Value": 3,
+		0: "Doesn't get much bigger than this kid, the Big Game! I'm not gonna lie, we're in rough shape... But you're our legally blind ringer! I know you can get us downfield...",
+		1: "Like, literally... All the way down field... It was a rough kickoff... BUT we've still got 4 plays to make this happen. Wild how that keeps happening.",
+		2: "Our boys are beat up. They won't hold our opponent's defenders back for long. We gotta make this happen quick! Best of luck, I know you can do it!",
+		3: "Now go get us our championship win. Ice water in your veins!",
 	},
 }
 
 const GAME_OVER_DICT: Dictionary = {
 	"win": {
-		"Max Dialog Value": 0,
-		0: "You did it! You won the championship for your team! Thanks for trying out my Ludum Dare 57 Compo entry until the end!",
+		"Max Dialog Value": 1,
+		0: "You did it! You won the championship for your team! I knew your depth perception wasn't an issue, you crushed it like I knew you would!",
+		1: "And thanks to you, the player, for trying out this Ludum Dare 57 Compo entry until the end! I really appreciate you, and I hope you had fun :) Go ahead and click to try again.",
 	},
 	"lose": {
 		"Max Dialog Value": 0,

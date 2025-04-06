@@ -22,6 +22,6 @@ const LEVEL_DICTIONARY: Dictionary = {
 	}
 }
 
-@onready var current_level: int = 2
+@onready var current_level: int = 0
 @onready var current_x_position: float = 0
 @onready var current_play_count: int = 1

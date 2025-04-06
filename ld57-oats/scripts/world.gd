@@ -230,7 +230,11 @@ func _on_play_ball_caught() -> void:
 func _on_play_qb_sacked() -> void:
 	$Sounds/Sack.play()
 	for qb in get_tree().get_nodes_in_group("qb"):
-		Globals.current_x_position = qb.global_position.x
+		# Handle plays that set players off the screen
+		if qb.global_position.x <= Globals.LEVEL_DICTIONARY[2]["starting_x_position"]: 
+			Globals.current_x_position = Globals.LEVEL_DICTIONARY[2]["starting_x_position"]
+		else:
+			Globals.current_x_position = qb.global_position.x
 	_fail_state()
 
 
