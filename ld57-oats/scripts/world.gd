@@ -20,13 +20,12 @@ func _ready():
 	var textbox = TEXTBOX.instantiate()
 	$UI.add_child(textbox)
 	await textbox.dialog_done
+	$UI/Instruct.text = "Tap W or Up Arrow to hike and start play"
 	Globals.current_play_count = 1
 	if Globals.current_level > Globals.MAX_ROUNDS:
 		print("YOU WIN")
 		return
 	_update_play()
-	#$UI/Adjustment.text = str("EYESIGHT: ", round(eye_adjustment))
-	$UI/Down.text = str("PLAY NUMBER: ", Globals.current_play_count)
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
 
@@ -48,6 +47,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_released("hike"):
 		if play_started:
 			return
+		$UI/Instruct.text = "Hold down Left Mouse Button or Space to charge throw"
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.hike_ball()
 			play_child.get_node("Wideout").speed = randf_range(
@@ -87,6 +87,7 @@ func _input(event: InputEvent) -> void:
 			return # Avoid stutter-stepping spacebar
 		Engine.time_scale = 0.5 # Slow down for better control and/or drama maybe who knows
 		is_throwing = true # Set to the throwing state
+		$UI/Instruct.text = "Release Left Mouse Button or Space to throw downfield"
 		for qb in get_tree().get_nodes_in_group("qb"):
 			qb.is_throwing = true
 
@@ -94,6 +95,7 @@ func _input(event: InputEvent) -> void:
 		has_thrown = true # Avoid stutter-stepping spacebar
 		is_throwing = false # Avoid stutter-stepping spacebar
 		$Sounds/Throw.play()
+		$UI/Instruct.text = "Nothing to do but pray now"
 		for play_child in get_tree().get_nodes_in_group("play"):
 			play_child.get_node("Qb").throw()
 		for linebacker_child in get_tree().get_nodes_in_group("linebacker"):
@@ -113,12 +115,6 @@ func _fail_state():
 	if Globals.current_play_count > 4:
 		print("adding text from fail state")
 		_game_over(false)
-		#var textbox = TEXTBOX.instantiate()
-		#$UI.add_child(textbox)
-		#textbox.game_over = true
-		#Globals.current_play_count = 1
-		#Globals.current_level = 0
-		#await textbox.dialog_done
 	_update_play()
 	$UI/AnimationPlayer.play("fade_in")
 	await $UI/AnimationPlayer.animation_finished
@@ -138,14 +134,6 @@ func _success_state(td: bool, new_position: float):
 			print("past final level")
 			print("adding text from success win state")
 			_game_over(true)
-			#var textbox = TEXTBOX.instantiate()
-			#textbox.game_over = true
-			#textbox.won_game = true
-			#$UI.add_child(textbox)
-			#await textbox.dialog_done
-			#Globals.current_level = 0
-			#Globals.current_play_count = 1
-			#get_tree().reload_current_scene()
 			return
 		Globals.current_x_position = Globals.LEVEL_DICTIONARY[Globals.current_level]["starting_x_position"]
 		get_tree().reload_current_scene()
@@ -176,6 +164,8 @@ func _update_play():
 		return # this should avoid null group call for the next line
 	if Globals.current_play_count <= 4:
 		$Scoreboard.frame = Globals.current_play_count - 1 # Need a -1 here coz it starts at 0
+	$UI/Scramble.hide()
+	$UI/Instruct.text = "Tap W or Up Arrow to hike and start play"
 	Engine.time_scale = 1.0
 	GlobalSound.update_pacing()
 	# $Sounds/Whistle.play()
@@ -188,7 +178,6 @@ func _update_play():
 		Globals.current_x_position = new_play.position.x
 	else:
 		new_play.position = Vector2(Globals.current_x_position, PLAY_Y_POSITION)
-	$UI/Down.text = str("PLAY NUMBER: ", Globals.current_play_count)
 	new_play.ball_caught.connect(_on_play_ball_caught)
 	new_play.wideout_td.connect(_on_play_wideout_td)
 	new_play.qb_sacked.connect(_on_play_qb_sacked)

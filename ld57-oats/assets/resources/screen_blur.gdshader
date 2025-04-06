@@ -4,7 +4,7 @@ uniform float blur_radius : hint_range(1.0, 10.0) = 3.0; // Controls the strengt
 
 void fragment() {
     vec2 texel_size = 1.0 / textureSize(TEXTURE, 0); // Get the size of a single texel
-    
+
     // The 3x3 blur kernel
     vec4 color = texture(TEXTURE, FRAGCOORD.xy / VIEWPORT_SIZE); // Center pixel
     color += texture(TEXTURE, (FRAGCOORD.xy + vec2(texel_size.x, 0.0)) / VIEWPORT_SIZE); // Right pixel

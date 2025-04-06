@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://dbuvo4cq3obyk"]
+[gd_scene load_steps=28 format=3 uid="uid://dbuvo4cq3obyk"]
 
 [ext_resource type="Script" uid="uid://dytmjwcron7q8" path="res://scripts/world.gd" id="1_nnsk1"]
 [ext_resource type="Texture2D" uid="uid://bn6pywd4xpycr" path="res://assets/background.png" id="2_k0juu"]
 [ext_resource type="Theme" uid="uid://x61l528bln50" path="res://assets/resources/main_theme.tres" id="3_k0juu"]
 [ext_resource type="Texture2D" uid="uid://d4lv2tdk6teyp" path="res://assets/scoreboard.png" id="3_xo05s"]
 [ext_resource type="Script" uid="uid://bhkncvf0aijul" path="res://scripts/camera.gd" id="4_4mrxx"]
+[ext_resource type="FontFile" uid="uid://dqfvr1jxhg3ol" path="res://assets/resources/Not Jam Third Dimension 15.ttf" id="5_dss4m"]
 [ext_resource type="AudioStream" uid="uid://bxr6aoo25afd7" path="res://assets/sounds/oats_custom/catch.ogg" id="5_jhx03"]
 [ext_resource type="AudioStream" uid="uid://57vdudkc1651" path="res://assets/sounds/oats_custom/hike.ogg" id="6_o8fc1"]
 [ext_resource type="AudioStream" uid="uid://co8amvw1xfs7x" path="res://assets/sounds/oats_custom/hut1.ogg" id="7_xo05s"]
@@ -82,6 +83,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Scramble:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e3hyu"]
 _data = {
@@ -126,14 +139,34 @@ hframes = 4
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Down" type="Label" parent="UI"]
-offset_left = 448.0
-offset_top = 14.0
-offset_right = 575.0
-offset_bottom = 39.0
+[node name="Instruct" type="Label" parent="UI"]
+offset_left = 341.0
+offset_top = 10.0
+offset_right = 1276.0
+offset_bottom = 51.0
 theme = ExtResource("3_k0juu")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "DOWN:"
+theme_override_font_sizes/font_size = 28
+text = "Tap W or Up Arrow to hike and start play"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Scramble" type="RichTextLabel" parent="UI"]
+visible = false
+clip_contents = false
+offset_left = 417.0
+offset_top = 105.0
+offset_right = 1087.0
+offset_bottom = 202.0
+theme_override_colors/default_color = Color(0.67451, 0.196078, 0.196078, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/normal_font = ExtResource("5_dss4m")
+theme_override_font_sizes/normal_font_size = 96
+bbcode_enabled = true
+text = "[center][shake]SCRAMBLE!"
+fit_content = true
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 offset_left = -32.0
